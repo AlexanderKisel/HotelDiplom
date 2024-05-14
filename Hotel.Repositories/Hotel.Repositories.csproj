@@ -6,4 +6,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Hotel.Common.Entity\Hotel.Common.Entity.csproj" />
+    <ProjectReference Include="..\Hotel.Common\Hotel.Common.csproj" />
+    <ProjectReference Include="..\Hotel.Context.Contracts\Hotel.Context.Contracts.csproj" />
+    <ProjectReference Include="..\Hotel.Repositories.Contracts\Hotel.Repositories.Contracts.csproj" />
+    <ProjectReference Include="..\Hotel.Shared\Hotel.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
