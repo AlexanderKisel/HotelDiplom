@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Reflection;
 
@@ -24,5 +25,27 @@ namespace Hotel.Shared
                 }
             }
         }
+        public static void RegisterAutoMapper(this IServiceCollection services)
+        {
+            services.AddSingleton<IMapper>(provider =>
+            {
+                var profiles = provider.GetServices<Profile>();
+                var mapperConfig = new MapperConfiguration(mc =>
+                {
+                    foreach (var profile in profiles)
+                    {
+                        mc.AddProfile(profile);
+                    }
+                });
+                var mapper = mapperConfig.CreateMapper();
+                return mapper;
+            });
+        }
+
+        /// <summary>
+        /// Регистрирует <see cref="Profile"/> автомапера
+        /// </summary>
+        public static void RegisterAutoMapperProfile<TProfile>(this IServiceCollection services) where TProfile : Profile
+            => services.AddSingleton<Profile, TProfile>();
     }
 }

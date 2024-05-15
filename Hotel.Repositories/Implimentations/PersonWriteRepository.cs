@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Hotel.Common.Entity.InterfaceDB;
+using Hotel.Context.Contracts.Models;
+using Hotel.Repositories.Contracts.Interface;
 
 namespace Hotel.Repositories.Implimentations
 {
-    internal class PersonWriteRepository
+    public class PersonWriteRepository : BaseWriteRepository<Person>,
+        IPersonWriteRepository,
+        IRepositoryAnchor
     {
+        public PersonWriteRepository(IDbWriteContext writeContext) 
+        : base(writeContext){ }
     }
 }

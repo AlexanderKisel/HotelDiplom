@@ -1,12 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Hotel.Common.Entity.InterfaceDB;
+using Hotel.Context.Contracts.Models;
+using Hotel.Repositories.Contracts.Interface;
 
 namespace Hotel.Repositories.Implimentations
 {
-    internal class MenuWriteRepository
+    /// <summary>
+    /// <inheritdoc cref="IMenuWriteRepository"/>
+    /// </summary>
+    public class MenuWriteRepository : BaseWriteRepository<Menu>,
+        IMenuWriteRepository,
+        IRepositoryAnchor
     {
+        /// <summary>
+        /// Инициализирует новый экземпляр <see cref="MenuWriteRepository"/>
+        /// </summary>
+        public MenuWriteRepository(IDbWriteContext writeContext) 
+            : base(writeContext) { }
     }
 }
