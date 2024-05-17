@@ -23,7 +23,7 @@ namespace Hotel.Context.Configuration
             builder
                 .HasMany(x => x.Bookings)
                 .WithOne(x => x.Worker)
-                .HasForeignKey(x => x.WorkerID);
+                .HasForeignKey(x => x.WorkerId);
 
             builder.HasIndex(x => x.Email)
                 .IsUnique()

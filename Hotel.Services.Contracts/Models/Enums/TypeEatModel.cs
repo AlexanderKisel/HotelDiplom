@@ -1,9 +1,9 @@
-﻿namespace Hotel.Context.Contracts.Enums
+﻿namespace Hotel.Services.Contracts.Models.Enums
 {
     /// <summary>
     /// Вид еды
     /// </summary>
-    public enum TypeEat
+    public enum TypeEatModel
     {
         /// <summary>
         /// Неопределено

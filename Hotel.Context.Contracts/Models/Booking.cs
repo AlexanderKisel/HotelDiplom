@@ -20,7 +20,7 @@
         /// <see cref="Worker"/>
         /// В бронировании указывается сотрудник прикрепленный к этой комнате
         /// </summary>
-        public Guid WorkerID { get; set; }
+        public Guid WorkerId { get; set; }
 
         /// <summary>
         /// Сотрудник

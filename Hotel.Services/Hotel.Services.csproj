@@ -6,4 +6,19 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.EnumMapping" Version="3.2.0" />
+    <PackageReference Include="FluentAssertions" Version="6.12.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Hotel.Common\Hotel.Common.csproj" />
+    <ProjectReference Include="..\Hotel.Repositories.Contracts\Hotel.Repositories.Contracts.csproj" />
+    <ProjectReference Include="..\Hotel.Repositories\Hotel.Repositories.csproj" />
+    <ProjectReference Include="..\Hotel.Services.Contracts\Hotel.Services.Contracts.csproj" />
+    <ProjectReference Include="..\Hotel.Shared\Hotel.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -12,7 +12,7 @@ namespace Hotel.Context.Configuration
             builder.HasIdAsKey();
             builder.PropertyAuditConfiguration();
             builder.Property(x => x.RoomId).IsRequired();
-            builder.Property(x => x.WorkerID).IsRequired();
+            builder.Property(x => x.WorkerId).IsRequired();
             builder.Property(x => x.PersonId).IsRequired();
             builder.Property(x => x.DateReg).IsRequired();
             builder.Property(x => x.DateStart).IsRequired();

@@ -1,9 +1,9 @@
-﻿namespace Hotel.Context.Contracts.Enums
+﻿namespace Hotel.Services.Contracts.Models.Enums
 {
     /// <summary>
     /// Виды комнат
     /// </summary>
-    public enum TypeRooms
+    public enum TypeRoomModel
     {
         /// <summary>
         /// Не определено

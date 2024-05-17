@@ -19,7 +19,7 @@ namespace Hotel.Repositories.Implimentations
             => reader.Read<Booking>()
             .NotDeletedAt()
             .OrderBy(x => x.Id)
-            .ThenBy(x => x.WorkerID)
+            .ThenBy(x => x.WorkerId)
             .ThenBy(x => x.PersonId)
             .ThenBy(x => x.RoomId)
             .ToListAsync(cancellationToken);
@@ -34,7 +34,7 @@ namespace Hotel.Repositories.Implimentations
             .NotDeletedAt()
             .ByIds(ids)
             .OrderBy(x => x.Id)
-            .ThenBy(x => x.WorkerID)
+            .ThenBy(x => x.WorkerId)
             .ThenBy(x => x.PersonId)
             .ThenBy(x => x.RoomId)
             .ToDictionaryAsync(key => key.Id, cancellationToken);
