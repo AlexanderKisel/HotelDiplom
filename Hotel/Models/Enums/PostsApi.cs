@@ -1,9 +1,9 @@
-﻿namespace Hotel.Context.Contracts.Enums
+﻿namespace Hotel.Api.Models.Enums
 {
     /// <summary>
     /// Должности сотрудников
     /// </summary>
-    public enum Posts
+    public enum PostsApi
     {
         /// <summary>
         /// Неопределено

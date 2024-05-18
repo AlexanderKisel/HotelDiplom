@@ -49,6 +49,6 @@ namespace Hotel.Services.Contracts.ModelsRequest
         /// <summary>
         /// Должность
         /// </summary>
-        public Posts Posts { get; set; } = Posts.None;
+        public Posts Posts { get; set; }
     }
 }

@@ -1,6 +1,14 @@
 ﻿namespace Hotel.Infrastructures.Validator
 {
-    public class IApiValidatorService
+    /// <summary>
+    /// Сервис валидации
+    /// </summary>
+    public interface IApiValidatorService
     {
+        /// <summary>
+        /// Валидирует модель
+        /// </summary>
+        Task ValidateAsync<TModel>(TModel model, CancellationToken cancellationToken)
+            where TModel : class;
     }
 }

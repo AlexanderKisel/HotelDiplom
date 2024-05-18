@@ -26,6 +26,5 @@ namespace Hotel.Context.Contracts.Models
         /// Вид блюда
         /// </summary>
         public TypeEat TypeEat { get; set; } = TypeEat.None;
-
     }
 }

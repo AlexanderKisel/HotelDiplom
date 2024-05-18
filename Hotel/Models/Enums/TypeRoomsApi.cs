@@ -1,9 +1,9 @@
-﻿namespace Hotel.Context.Contracts.Enums
+﻿namespace Hotel.Api.Models.Enums
 {
     /// <summary>
     /// Виды комнат
     /// </summary>
-    public enum TypeRooms
+    public enum TypeRoomsApi
     {
         /// <summary>
         /// Не определено

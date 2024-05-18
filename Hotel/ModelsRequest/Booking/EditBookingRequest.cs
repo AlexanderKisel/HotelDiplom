@@ -1,6 +1,6 @@
-﻿namespace Hotel.ModelsRequest.Room
+﻿namespace Hotel.ModelsRequest.Booking
 {
-    public class EditRoomRequest :CreateRoomRequest
+    public class EditBookingRequest : CreateBookingRequest
     {
         /// <summary>
         /// Идентификатор
