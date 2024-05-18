@@ -3,27 +3,27 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hotel", "Hotel\Hotel.csproj", "{D10A7C36-5A02-470A-B921-63B7BECF9230}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hotel.Api", "Hotel\Hotel.Api.csproj", "{D10A7C36-5A02-470A-B921-63B7BECF9230}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hotel.Common", "Hotel.Common\Hotel.Common.csproj", "{1F6EB20F-ED65-46A3-B6A9-266A6C674D71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel.Common.Entity", "Hotel.Common.Entity\Hotel.Common.Entity.csproj", "{D0C36FB1-24FE-410F-8B2A-8B14A95648B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hotel.Common.Entity", "Hotel.Common.Entity\Hotel.Common.Entity.csproj", "{D0C36FB1-24FE-410F-8B2A-8B14A95648B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel.Context", "Hotel.Context\Hotel.Context.csproj", "{5C2045B7-E5DB-4383-9360-A3B0BFD00F23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hotel.Context", "Hotel.Context\Hotel.Context.csproj", "{5C2045B7-E5DB-4383-9360-A3B0BFD00F23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel.Context.Configuration", "Hotel.Context.Configuration\Hotel.Context.Configuration.csproj", "{FF9A5686-4C11-435D-B975-464E502DE796}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hotel.Context.Configuration", "Hotel.Context.Configuration\Hotel.Context.Configuration.csproj", "{FF9A5686-4C11-435D-B975-464E502DE796}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel.Context.Contracts", "Hotel.Context.Contracts\Hotel.Context.Contracts.csproj", "{AFB7D730-BFF9-43F1-BC24-1981AEA0D996}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hotel.Context.Contracts", "Hotel.Context.Contracts\Hotel.Context.Contracts.csproj", "{AFB7D730-BFF9-43F1-BC24-1981AEA0D996}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel.Repositories", "Hotel.Repositories\Hotel.Repositories.csproj", "{D6069FCF-F2B1-40ED-8EA8-7B72EA7BA0F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hotel.Repositories", "Hotel.Repositories\Hotel.Repositories.csproj", "{D6069FCF-F2B1-40ED-8EA8-7B72EA7BA0F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel.Repositories.Contracts", "Hotel.Repositories.Contracts\Hotel.Repositories.Contracts.csproj", "{2C875DF7-9F08-4C47-9955-D4A2B54EE35C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hotel.Repositories.Contracts", "Hotel.Repositories.Contracts\Hotel.Repositories.Contracts.csproj", "{2C875DF7-9F08-4C47-9955-D4A2B54EE35C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel.Services", "Hotel.Services\Hotel.Services.csproj", "{96F90702-FA0C-42C4-85B3-25528139B8A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hotel.Services", "Hotel.Services\Hotel.Services.csproj", "{96F90702-FA0C-42C4-85B3-25528139B8A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel.Services.Contracts", "Hotel.Services.Contracts\Hotel.Services.Contracts.csproj", "{0567CCB3-56A8-4FF1-A560-A7E81C429DF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hotel.Services.Contracts", "Hotel.Services.Contracts\Hotel.Services.Contracts.csproj", "{0567CCB3-56A8-4FF1-A560-A7E81C429DF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel.Shared", "Hotel.Shared\Hotel.Shared.csproj", "{9B3D5691-3D42-49F5-9BC9-1CC77E98FE53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hotel.Shared", "Hotel.Shared\Hotel.Shared.csproj", "{9B3D5691-3D42-49F5-9BC9-1CC77E98FE53}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
