@@ -30,8 +30,8 @@ namespace Hotel.Infrastructures.Validator
             Register<CreateRoomRequestValidator>();
             Register<EditRoomRequestValidator>();
 
-            Register<CreateBookingRequestValidator>(workerReadRepository, personReadRepository, roomReadRepository);
-            Register<EditBookingRequestValidator>(workerReadRepository, personReadRepository, roomReadRepository);
+            Register<CreateBookingRequestValidator>(roomReadRepository, workerReadRepository, personReadRepository);
+            Register<EditBookingRequestValidator>(roomReadRepository, workerReadRepository, personReadRepository);
         }
 
         ///<summary>

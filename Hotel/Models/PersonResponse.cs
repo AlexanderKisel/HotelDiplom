@@ -32,6 +32,6 @@
         /// <summary>
         /// Дата рождения
         /// </summary>
-        public DateOnly Birthday { get; set; }
+        public DateTimeOffset Birthday { get; set; }
     }
 }

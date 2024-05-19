@@ -32,7 +32,7 @@ namespace Hotel.ModelsRequest.Worker
         /// <summary>
         /// Дата рождения
         /// </summary>
-        public DateOnly Birthday { get; set; }
+        public DateTimeOffset Birthday { get; set; }
 
         /// <summary>
         /// Данные паспорта (серия и номер)
