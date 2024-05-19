@@ -1,19 +1,7 @@
-﻿using Hotel.Context.Contracts.Enums;
-
-namespace Hotel.Services.Contracts.ModelsRequest
+﻿namespace Hotel.ModelsRequest.Person
 {
-    /// <summary>
-    /// Модель работников
-    /// </summary>
-    public class WorkerRequestModel
+    public class CreatePersonRequest
     {
-        /// <summary>
-        /// Идентификатор
-        /// </summary>
-        public Guid Id { get; set; }
-        /// <summary>
-        /// ФИО
-        /// </summary>
         public string FIO { get; set; } = string.Empty;
 
         /// <summary>
@@ -40,15 +28,5 @@ namespace Hotel.Services.Contracts.ModelsRequest
         /// Дата рождения
         /// </summary>
         public DateTimeOffset Birthday { get; set; }
-
-        /// <summary>
-        /// Данные паспорта (серия и номер)
-        /// </summary>
-        public string Passport { get; set; } = string.Empty;
-
-        /// <summary>
-        /// Должность
-        /// </summary>
-        public Posts Posts { get; set; }
     }
 }

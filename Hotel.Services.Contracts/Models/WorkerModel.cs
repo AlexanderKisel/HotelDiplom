@@ -39,7 +39,7 @@ namespace Hotel.Services.Contracts.Models
         /// <summary>
         /// Дата рождения
         /// </summary>
-        public DateOnly Birthday { get; set; }
+        public DateTimeOffset Birthday { get; set; }
 
         /// <summary>
         /// Данные паспорта (серия и номер)

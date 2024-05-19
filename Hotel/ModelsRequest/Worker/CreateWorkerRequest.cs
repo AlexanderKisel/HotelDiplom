@@ -1,16 +1,9 @@
-﻿using Hotel.Context.Contracts.Enums;
+﻿using Hotel.Api.Models.Enums;
 
-namespace Hotel.Services.Contracts.ModelsRequest
+namespace Hotel.ModelsRequest.Worker
 {
-    /// <summary>
-    /// Модель работников
-    /// </summary>
-    public class WorkerRequestModel
+    public class CreateWorkerRequest
     {
-        /// <summary>
-        /// Идентификатор
-        /// </summary>
-        public Guid Id { get; set; }
         /// <summary>
         /// ФИО
         /// </summary>
@@ -49,6 +42,6 @@ namespace Hotel.Services.Contracts.ModelsRequest
         /// <summary>
         /// Должность
         /// </summary>
-        public Posts Posts { get; set; }
+        public PostsApi Posts { get; set; }
     }
 }

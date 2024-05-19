@@ -1,11 +1,8 @@
-﻿using Hotel.Context.Contracts.Enums;
+﻿using Hotel.Api.Models.Enums;
 
-namespace Hotel.Context.Contracts.Models
+namespace Hotel.ModelsRequest.Menu
 {
-    /// <summary>
-    /// Меню
-    /// </summary>
-    public class Menu : BaseAuditEntity
+    public class CreateMenuRequest
     {
         /// <summary>
         /// Название
@@ -25,6 +22,6 @@ namespace Hotel.Context.Contracts.Models
         /// <summary>
         /// Вид блюда
         /// </summary>
-        public TypeEat TypeEat { get; set; } = TypeEat.None;
+        public TypeEatApi TypeEat { get; set; }
     }
 }
