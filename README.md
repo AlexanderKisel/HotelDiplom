@@ -15,7 +15,7 @@
         IEntityAuditCreated ..|> BaseAuditEntity
         IEntityAuditDeleted ..|> BaseAuditEntity 
         IEntityAuditUpdated ..|> BaseAuditEntity
-        IEntityWithId ..|>
+        IEntityWithId ..|> BaseAuditEntity
         class IEntity{
             <<interface>>
         }
