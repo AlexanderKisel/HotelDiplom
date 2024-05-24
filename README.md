@@ -11,7 +11,7 @@
         BaseAuditEntity --|> Worker
         BaseAuditEntity --|> Menu
         BaseAuditEntity --|> Room
-        IEntity ..|-> BaseAuditEntity
+        IEntity ..|> BaseAuditEntity
         IEntityAuditCreated ..|> BaseAuditEntity
         IEntityAuditDeleted ..|> BaseAuditEntity 
         IEntityAuditUpdated ..|> BaseAuditEntity
