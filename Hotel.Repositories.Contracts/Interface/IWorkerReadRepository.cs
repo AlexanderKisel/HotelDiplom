@@ -31,5 +31,15 @@ namespace Hotel.Repositories.Contracts.Interface
         /// Проверить есть ли <see cref="Worker"/> в колекции
         /// </summary>
         Task<bool> AnyByIdAsync(Guid id, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Получить <see cref="Worker"/> по логину и паролю
+        /// </summary>
+        Task<Worker?> GetByWorkerAsync(string login, string password, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Хеширование пароля
+        /// </summary>
+        string GetHashSha256(string password);
     }
 }

@@ -36,14 +36,14 @@ namespace Hotel.Context.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<DateOnly>("DateEnd")
-                        .HasColumnType("date");
+                    b.Property<DateTimeOffset>("DateEnd")
+                        .HasColumnType("datetimeoffset");
 
-                    b.Property<DateOnly>("DateReg")
-                        .HasColumnType("date");
+                    b.Property<DateTimeOffset>("DateReg")
+                        .HasColumnType("datetimeoffset");
 
-                    b.Property<DateOnly>("DateStart")
-                        .HasColumnType("date");
+                    b.Property<DateTimeOffset>("DateStart")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DeletedAt")
                         .HasColumnType("datetimeoffset");

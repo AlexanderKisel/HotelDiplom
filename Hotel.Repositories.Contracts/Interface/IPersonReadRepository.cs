@@ -13,7 +13,7 @@ namespace Hotel.Repositories.Contracts.Interface
         Task<List<Person>> GetAllAsync(CancellationToken cancellationToken);
 
         /// <summary>
-        /// Получить <see cref="Person"/> по илентификатору
+        /// Получить <see cref="Person"/> по идентификатору
         /// </summary>
         Task<Person?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 
@@ -31,5 +31,15 @@ namespace Hotel.Repositories.Contracts.Interface
         /// Проверить есть ли <see cref="Person"/> в колекции
         /// </summary>
         Task<bool> AnyByIdAsync(Guid id, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Получить <see cref="Person"/> по логину и паролю
+        /// </summary>
+        Task<Person?> GetByPersonAsync(string login, string password,  CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Хеширование пароля
+        /// </summary>
+        string GetHashSha256(string password);
     }
 }

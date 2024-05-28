@@ -20,16 +20,16 @@
         /// <summary>
         /// Дата бронирования
         /// </summary>
-        public DateOnly DateReg { get; set; }
+        public DateTimeOffset DateReg { get; set; }
 
         /// <summary>
         /// Дата начала проживания(заезд)
         /// </summary>
-        public DateOnly DateStart { get; set; }
+        public DateTimeOffset DateStart { get; set; }
 
         /// <summary>
         /// Дата окончания проживания(съезд)
         /// </summary>
-        public DateOnly DateEnd { get; set; }
+        public DateTimeOffset DateEnd { get; set; }
     }
 }

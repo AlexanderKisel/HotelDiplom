@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+ <style>
+    form[name = "AuthStyle"] {
+        background: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+        }
+
+    input[name = "Autorization"], 
+    [name = "login"] ,
+    [name = "password"] {
+            padding: 8px;
+            margin: 5px;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+    button[name = "Autorization"] {
+            padding: 8px 16px;
+            margin: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+</style>
+
+<body>
+    <form id="authForm" name="AuthStyle">
+        <h2>Авторизация</h2>
+        <input id="login" name="login" type="text" placeholder="Логин" />
+        <br>
+        <input id="password" name="password" type="password" placeholder="Пароль" />
+        <br>
+        <button id="enter" type="submit" name="Autorization">Войти</button>
+    </form>
+
+    <script>
+        document.getElementById('enter').addEventListener('click', function (event) {
+            event.preventDefault();
+            const login = document.getElementById('login').value;
+            const password = document.getElementById('password').value;
+            console.log(login);
+            console.log(password);
+            const response = fetch(`https://localhost:7134/Autorization/Auth?login=${login}&password=${password}`, {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            }).then((res) => res.json())
+                .then((parsed) => {
+                    if(parsed != null){
+                        window.location.href = `https://localhost:7134?token=${parsed}`;
+                        console.log(parsed);
+                        document.cookie = "jwtToken = " + parsed + ";path=/;SameSite=None;Secure"
+                    }else{
+                        console.error("Ошибка: токен не был получен");
+                    }
+                })
+                .catch((err) => console.error("error", err));
+        });
+    </script>
+</body>
+</html>

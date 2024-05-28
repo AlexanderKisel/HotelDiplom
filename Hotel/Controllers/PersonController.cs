@@ -5,6 +5,7 @@ using Hotel.Infrastructures.Validator;
 using Hotel.ModelsRequest.Person;
 using Hotel.Services.Contracts.Interface;
 using Hotel.Services.Contracts.ModelsRequest;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -26,14 +27,16 @@ namespace Hotel.Controllers
             this.validatorService = validatorService;
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         [ApiOk]
         [ApiConflict]
         [ApiNotFound]
         [ApiNotAcceptable]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
+            var login = User.Identity.Name;
             var result = await personService.GetAllAsync(cancellationToken);
+            Console.WriteLine(login);
             return Ok(mapper.Map<IEnumerable<PersonResponse>>(result));
         }
 
@@ -52,16 +55,16 @@ namespace Hotel.Controllers
             return Ok(mapper.Map<PersonResponse>(result));
         }
 
-        [HttpPost]
+        [HttpPost("Register")]
         [ApiOk]
         [ApiConflict]
         [ApiNotFound]
         [ApiNotAcceptable]
-        public async Task<IActionResult> Create(CreatePersonRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create([FromForm] CreatePersonRequest createPersonRequest, CancellationToken cancellationToken)
         {
-            await validatorService.ValidateAsync(request, cancellationToken);
+            await validatorService.ValidateAsync(createPersonRequest, cancellationToken);
 
-            var personRequestModel = mapper.Map<PersonRequestModel>(request);
+            var personRequestModel = mapper.Map<PersonRequestModel>(createPersonRequest);
             var result = await personService.AddAsync(personRequestModel, cancellationToken);
             return Ok(mapper.Map<PersonResponse>(result));
         }

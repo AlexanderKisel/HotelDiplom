@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Гостиница - Baltic</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="../Views/Shared/_Layout.cshtml.css">
+    <link rel="icon" type="image/x-icon" href="Resources//icon.png" />
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a asp-controller="Transition" asp-action="HomePage">Главная</a></li>
+                <li><a asp-controller="Transition" asp-action="RoomsPage">Номера</a></li>
+                <li><a asp-controller="Transition" asp-action="MenuPage">Меню</a></li>
+                <li><a asp-controller="Transition" asp-action="QandAPage">Обратная связь</a></li>
+            </ul>
+        </nav>
+        <div class="actions">
+            <form id="registerForm" action="@Url.Action("RegisterPage", "Transition")" method="get" style="display: inline;">
+                <button class="registerBtn" type="submit">Регистрация</button>
+            </form>
+
+            <form id="authorizationForm" action="@Url.Action("AutorizationPage", "Transition")" method="get" style="display: inline;">
+                <button class="authorizationBtn" type="submit">Авторизация</button>
+            </form> 
+        </div>
+        <div class="notactions">
+            <form id="deleteTokenButton" action="@Url.Action("HomePage", "Transition")" method="get" style="display: inline;">
+                <button class="exitBtn" type="submit">Выйти</button>
+            </form>
+        </div>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <footer>
+        <div class="footer-container">
+            <div class="social-links">
+                <a href="ссылка на Instagram" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="ссылка на Facebook" class="social-icon"><i class="fab fa-facebook"></i></a>
+                <a href="ссылка на Twitter" class="social-icon"><i class="fab fa-twitter"></i></a>
+            </div>
+            <div class="contact-info">
+                <p>Телефон: +7-931-363-53-38</p>
+                <p>Email: alekskisel5250@gmail.com</p>
+            </div>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d747026.8524690373!2d40.417559246189654!3d42.99778386089476!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x405f2f4f13a442ff%3A0x934852e625989a6f!2z0JDQsdGF0LDQt9C40Y8!5e0!3m2!1sru!2sru!4v1716311903774!5m2!1sru!2sru" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Проверяем статус загрузки страницы
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            // Если страница уже загружена или находится в процессе загрузки, выполняем код немедленно
+            checkToken();
+        } else {
+            // Если страница все еще загружается, ждем события DOMContentLoaded
+            document.addEventListener('DOMContentLoaded', checkToken);
+        }
+
+        function checkToken() {
+            // Получаем значение cookie
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            }
+
+            // Проверяем наличие JWT-токена
+            const jwtToken = getCookie('jwtToken');
+            if (jwtToken) {
+                // Если JWT-токен найден, выполняем нужные действия
+                console.log('JWT-токен найден:', jwtToken);
+                const elementsToHide = document.querySelectorAll('.actions');
+                elementsToHide.forEach(function (element) {
+                    element.style.display = 'none';
+                });
+                // Дополнительные действия здесь, например, отображение контента для авторизованных пользователей
+            } else {
+                // Если JWT-токен не найден, можно выполнить другие действия
+                console.log('JWT-токен не найден');
+                const elementsToHide = document.querySelectorAll('.notactions');
+                elementsToHide.forEach(function (element) {
+                    element.style.display = 'none';
+                });
+            }
+        }
+
+        function deleteJwtToken() {
+            // Устанавливаем срок действия cookie в прошлое, чтобы он истек
+            document.cookie = "jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+            // Можно также удалить другие параметры cookie, если они есть
+            // document.cookie = "другие_параметры=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+            console.log("JWT-токен успешно удален из cookie!");
+        }
+
+        // Находим кнопку, на которую пользователь будет нажимать
+        const deleteTokenButton = document.getElementById('deleteTokenButton');
+
+        // Назначаем обработчик события нажатия на кнопку
+        deleteTokenButton.addEventListener('click', deleteJwtToken);
+    </script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

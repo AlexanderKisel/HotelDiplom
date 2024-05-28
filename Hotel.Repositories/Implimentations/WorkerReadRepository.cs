@@ -3,6 +3,8 @@ using Hotel.Common.Entity.Repositories;
 using Hotel.Context.Contracts.Models;
 using Hotel.Repositories.Contracts.Interface;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Hotel.Repositories.Implimentations
 {
@@ -39,5 +41,23 @@ namespace Hotel.Repositories.Implimentations
 
         Task<bool> IWorkerReadRepository.AnyByIdAsync(Guid id, CancellationToken cancellationToken)
         => reader.Read<Worker>().NotDeletedAt().AnyAsync(x => x.Id == id, cancellationToken);
+
+        Task<Worker?> IWorkerReadRepository.GetByWorkerAsync(string login, string password, CancellationToken cancellationToken)
+            => reader.Read<Worker>().NotDeletedAt().FirstOrDefaultAsync(x => x.Login == login && x.Password == GetHashSha256(password), cancellationToken);
+
+        public string GetHashSha256(string password)
+        {
+            using (var hashString = SHA256.Create())
+            {
+                byte[] bytes = Encoding.Unicode.GetBytes(password);
+                byte[] hash = hashString.ComputeHash(bytes);
+                string hashstring = "";
+                foreach (byte x in hash)
+                {
+                    hashstring += String.Format("{0:x2}", x);
+                }
+                return hashstring;
+            }
+        }
     }
 }
