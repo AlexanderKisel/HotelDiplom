@@ -15,7 +15,8 @@
         }
 
         input[type="text"],
-        input[type="password"]
+        input[type="password"],
+        input[type="date"]
         {
             width: 100%;
             padding: 10px;
@@ -43,17 +44,37 @@
 <body>
     <div class="register-container">
         <h2>Регистрация</h2>
-        <form asp-controller="Person" asp-action="Register" method="post">
+        <form id="registerForm" action="/Person/Register" method="post">
             <input type="text" name="fio" placeholder="ФИО" required>
             <input type="text" name="email" placeholder="Электронная почта" required>
             <input type="text" name="phone" placeholder="Номер телефона" required>
             <input type="text" name="login" placeholder="Логин" required>
             <input type="password" name="password" placeholder="Пароль" required>
-            <input type="date" name="birthday"
-                   placeholder="Дата рождения"
-                   required>
+            <input type="date" name="birthday" placeholder="Дата рождения" required>
             <button name="regBtn" type="submit">Зарегистрироваться</button>
         </form>
     </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Отменяем стандартное действие формы
+            var formData = new FormData(this);
+
+            fetch('/Person/Register', {
+                method: 'POST',
+                body: formData
+            })..then(response => {
+                if (response.ok) {
+                    if (response.redirected) {
+                        window.location.href = response.url; // Перенаправляем пользователя на URL, на который указывается при редиректе
+                    } else {
+                        window.location.href = '/'; // Перенаправляем пользователя на главную страницу
+                    }
+                } else {
+                    alert('Произошла ошибка при регистрации');
+                }
+            })
+        });
+    </script>
 </body>
 </html>

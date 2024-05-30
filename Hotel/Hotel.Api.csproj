@@ -8,10 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Transition\MenuPage.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
@@ -34,16 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Transition\MenuPage.cshtml" />
     <None Include="wwwroot\Resources\background.webp" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Transition\MenuPage.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\Transition\MenuPage.cshtml" />
   </ItemGroup>
 
 </Project>

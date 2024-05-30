@@ -1,5 +1,37 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Page Title</title>
+</head>
+<body>
+    <div id="menuContent">
+        <ul id="menuList">
+            <!-- Сюда будут динамически добавляться элементы меню -->
+        </ul>
+    </div>
+    <!-- Подключение библиотеки jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Ваш JavaScript код для AJAX запроса -->
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: 'https://localhost:7134/Menu/GetAll',
+                type: 'GET',
+                success: function (data) {
+                    console.log(data); // Выводим данные в консоль
+                    var menuList = $('#menuList');
+                    menuList.empty();
+                    $.each(data, function (index, item) {
+                        menuList.append('<li>' + item.Name + '</li>');
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.log('Ошибка при получении данных меню');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
