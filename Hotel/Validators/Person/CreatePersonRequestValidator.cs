@@ -1,11 +1,12 @@
 ﻿using FluentValidation;
 using Hotel.ModelsRequest.Person;
+using Hotel.Repositories.Contracts.Interface;
 
 namespace Hotel.Api.Validators.Person
 {
     public class CreatePersonRequestValidator : AbstractValidator<CreatePersonRequest>
     {
-        public CreatePersonRequestValidator() 
+        public CreatePersonRequestValidator(IPersonReadRepository personReadRepository) 
         {
             RuleFor(person => person.FIO)
                 .NotNull()
@@ -18,7 +19,13 @@ namespace Hotel.Api.Validators.Person
             RuleFor(person => person.Phone)
                 .NotNull()
                 .NotEmpty()
-                .WithMessage("Телефон не должен быть пустым");
+                .WithMessage("Телефон не должен быть пустым")
+                .MustAsync(async (phone, cancellationToken) =>
+                {
+                    var isPhoneExists = await personReadRepository.AnyByPhoneAsync(phone, cancellationToken);
+                    return !isPhoneExists;
+                })
+                .WithMessage("Телефон уже используется");
             RuleFor(person => person.Login)
                 .NotNull()
                 .NotEmpty()

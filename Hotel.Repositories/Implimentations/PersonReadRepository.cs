@@ -60,5 +60,8 @@ namespace Hotel.Repositories.Implimentations
                 return hashstring;
             }
         }
+
+        Task<bool> IPersonReadRepository.AnyByPhoneAsync(string phone, CancellationToken cancellationToken)
+            => reader.Read<Person>().NotDeletedAt().AnyAsync(x => x.Phone == phone, cancellationToken);
     }
 }

@@ -44,7 +44,7 @@
 <body>
     <div class="register-container">
         <h2>Регистрация</h2>
-        <form id="registerForm" action="/Person/Register" method="post">
+        <form id="regForm" action="https://localhost:7134">
             <input type="text" name="fio" placeholder="ФИО" required>
             <input type="text" name="email" placeholder="Электронная почта" required>
             <input type="text" name="phone" placeholder="Номер телефона" required>
@@ -56,24 +56,17 @@
     </div>
 
     <script>
-        document.getElementById('registerForm').addEventListener('submit', function (event) {
+        document.getElementById('regForm').addEventListener('submit', function (event) {
             event.preventDefault(); // Отменяем стандартное действие формы
             var formData = new FormData(this);
-
             fetch('/Person/Register', {
                 method: 'POST',
                 body: formData
-            })..then(response => {
-                if (response.ok) {
-                    if (response.redirected) {
-                        window.location.href = response.url; // Перенаправляем пользователя на URL, на который указывается при редиректе
-                    } else {
-                        window.location.href = '/'; // Перенаправляем пользователя на главную страницу
-                    }
-                } else {
-                    alert('Произошла ошибка при регистрации');
-                }
-            })
+            }).then((response) => response.json())
+                .then((data) => {
+                    console.log(data)
+                    data.errors.forEach(message => {alert(message.message)})
+            });
         });
     </script>
 </body>

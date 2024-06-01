@@ -1,37 +1,204 @@
-﻿<!DOCTYPE html>
+﻿@{
+    ViewData["Title"] = "MenuPage";
+}
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Your Page Title</title>
+    <title>@ViewData["Title"]</title>
+    <style>
+        .filters {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 50px;
+        }
+
+            .filters label {
+                display: inline-block;
+                padding: 10px 20px;
+                background-color: #f1f1f1;
+                border-radius: 5px;
+                margin: 0 5px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+                .filters label:hover {
+                    background-color: #e0e0e0;
+                }
+
+            .filters input[type="radio"] {
+                display: none;
+            }
+
+                .filters input[type="radio"]:checked + label {
+                    background-color: #007bff;
+                    color: #fff;
+                }
+
+        #menuContent {
+            background-color: rgba(255, 255, 255, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+            .menu-item img {
+                width: 150px;
+                height: 150px;
+                margin-right: 20px;
+            }
+
+        .menu-item-info h3 {
+            margin-top: 0;
+        }
+
+        .menu-item-info p {
+            margin-bottom: 0;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+            .pagination button {
+                margin: 0 5px;
+                padding: 5px 10px;
+                background-color: #f1f1f1;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+                .pagination button:hover {
+                    background-color: #e0e0e0;
+                }
+
+                .pagination button.active {
+                    background-color: #007bff;
+                    color: #fff;
+                }
+    </style>
 </head>
 <body>
-    <div id="menuContent">
-        <ul id="menuList">
-            <!-- Сюда будут динамически добавляться элементы меню -->
-        </ul>
+    <div class="filters">
+        <label><input type="radio" name="filter" value="all" checked> Все</label>
+        <label><input type="radio" name="filter" value="breakfast"> Завтрак</label>
+        <label><input type="radio" name="filter" value="lunch"> Обед</label>
+        <label><input type="radio" name="filter" value="snack"> Перекус</label>
+        <label><input type="radio" name="filter" value="dinner"> Ужин</label>
     </div>
-    <!-- Подключение библиотеки jQuery -->
+    <div id="menuContent">
+        <div id="menuList-wrapper">
+            <ul id="menuList">
+                <!-- Сюда будут динамически добавляться элементы меню -->
+            </ul>
+        </div>
+        <div class="pagination">
+            <button id="prev-page">Предыдущая</button>
+            <button id="next-page">Следующая</button>
+        </div>
+    </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- Ваш JavaScript код для AJAX запроса -->
     <script>
         $(document).ready(function () {
-            $.ajax({
-                url: 'https://localhost:7134/Menu/GetAll',
-                type: 'GET',
-                success: function (data) {
-                    console.log(data); // Выводим данные в консоль
-                    var menuList = $('#menuList');
-                    menuList.empty();
-                    $.each(data, function (index, item) {
-                        menuList.append('<li>' + item.Name + '</li>');
-                    });
-                },
-                error: function (xhr, status, error) {
-                    console.log('Ошибка при получении данных меню');
+            var currentPage = 1;
+            var itemsPerPage = 3;
+
+            // Добавьте обработчик для радиокнопок фильтра
+            $('input[name="filter"]').change(function () {
+                currentPage = 1;
+                loadMenu($(this).val());
+            });
+
+            // Добавьте обработчики для кнопок навигации
+            $('#prev-page').click(function () {
+                if (currentPage > 1) {
+                    currentPage--;
+                    loadMenu($('input[name="filter"]:checked').val());
                 }
             });
+
+            $('#next-page').click(function () {
+                currentPage++;
+                loadMenu($('input[name="filter"]:checked').val());
+            });
+
+            // Функция для загрузки и отображения меню
+            function loadMenu(filter) {
+                $.ajax({
+                    url: 'https://localhost:7134/Menu/GetAll',
+                    type: 'GET',
+                    success: function (data) {
+                        var menuList = $('#menuList');
+                        menuList.empty();
+
+                        // Фильтруем данные по выбранному типу еды
+                        var filteredData = (filter === 'all') ? data : data.filter(function (item) {
+                            switch (filter) {
+                                case 'breakfast':
+                                    return item.typeEat === 'Breakfast';
+                                case 'lunch':
+                                    return item.typeEat === 'Lunch';
+                                case 'snack':
+                                    return item.typeEat === 'AfternoonSnack';
+                                case 'dinner':
+                                    return item.typeEat === 'Supper';
+                                default:
+                                    return true;
+                            }
+                        });
+
+                        // Пагинация
+                        var startIndex = (currentPage - 1) * itemsPerPage;
+                        var endIndex = startIndex + itemsPerPage;
+                        var paginatedData = filteredData.slice(startIndex, endIndex);
+
+                        // Отображаем отфильтрованное меню
+                        $.each(paginatedData, function (index, item) {
+                            var menuItem = $('<div class="menu-item"></div>');
+                            var imageUrl = '/Resources/' + encodeURIComponent(item.name) + '.jpg';
+                            var image = $('<img>').attr('src', imageUrl);
+                            var info = $('<div class="menu-item-info"></div>');
+                            var name = $('<h3></h3>').text(item.name);
+                            var price = $('<p></p>').text('Цена: ' + item.price + ' р.');
+                            var description = $('<p></p>').text(item.description);
+                            info.append(name, price, description);
+                            menuItem.append(image, info);
+                            menuList.append(menuItem);
+                        });
+
+                        // Обновляем состояние кнопок навигации
+                        updatePaginationButtons(filteredData.length, itemsPerPage, currentPage);
+                    },
+                    error: function (xhr, status, error) {
+                        console.log('Ошибка при получении данных меню');
+                    }
+                });
+            }
+            function updatePaginationButtons(currentPage, itemsPerPage, totalItems) {
+                var totalPages = Math.ceil(totalItems / itemsPerPage);
+                var nextPageHasContent = (currentPage + 1) < totalPages;
+
+                $('#prev-page').toggleClass('active', currentPage > 1);
+
+                if (nextPageHasContent) {
+                    $('#next-page').addClass('active');
+                } else {
+                    $('#next-page').removeClass('active');
+                }
+            }
+
+            // Первичная загрузка меню
+            loadMenu('all');
         });
     </script>
 </body>
 </html>
-

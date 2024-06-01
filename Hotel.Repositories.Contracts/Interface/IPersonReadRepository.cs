@@ -38,6 +38,10 @@ namespace Hotel.Repositories.Contracts.Interface
         Task<Person?> GetByPersonAsync(string login, string password,  CancellationToken cancellationToken);
 
         /// <summary>
+        /// Проверить есть ли <see cref="Person"/> в колекции
+        /// </summary>
+        Task<bool> AnyByPhoneAsync(string phone, CancellationToken cancellationToken);
+        /// <summary>
         /// Хеширование пароля
         /// </summary>
         string GetHashSha256(string password);

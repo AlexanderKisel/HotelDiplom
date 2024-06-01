@@ -3,6 +3,7 @@ using Hotel.Api.Models;
 using Hotel.Attridute;
 using Hotel.Infrastructures.Validator;
 using Hotel.ModelsRequest.Menu;
+using Hotel.Services.Contracts.Exceptions;
 using Hotel.Services.Contracts.Interface;
 using Hotel.Services.Contracts.ModelsRequest;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +27,7 @@ namespace Hotel.Controllers
             this.validatorService = validatorService;
         }
 
-        [HttpGet]
+        [HttpGet("[action]")]
         [ApiOk]
         [ApiConflict]
         [ApiNotFound]
@@ -59,11 +60,12 @@ namespace Hotel.Controllers
         [ApiNotAcceptable]
         public async Task<IActionResult> Create(CreateMenuRequest request, CancellationToken cancellationToken)
         {
-            await validatorService.ValidateAsync(request, cancellationToken);
+                await validatorService.ValidateAsync(request, cancellationToken);
 
-            var menuRequestModel = mapper.Map<MenuRequestModel>(request);
-            var result = await menuService.AddAsync(menuRequestModel, cancellationToken);
-            return Ok(mapper.Map<MenuResponse>(result));
+                var menuRequestModel = mapper.Map<MenuRequestModel>(request);
+                var result = await menuService.AddAsync(menuRequestModel, cancellationToken);
+                return Ok(mapper.Map<MenuResponse>(result));
+
         }
 
         [HttpPut]
