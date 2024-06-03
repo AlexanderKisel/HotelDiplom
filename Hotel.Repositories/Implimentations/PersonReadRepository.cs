@@ -63,5 +63,9 @@ namespace Hotel.Repositories.Implimentations
 
         Task<bool> IPersonReadRepository.AnyByPhoneAsync(string phone, CancellationToken cancellationToken)
             => reader.Read<Person>().NotDeletedAt().AnyAsync(x => x.Phone == phone, cancellationToken);
+        Task<bool> IPersonReadRepository.AnyByEmailAsync(string email, CancellationToken cancellationToken)
+            => reader.Read<Person>().NotDeletedAt().AnyAsync(x => x.Email == email, cancellationToken);
+        Task<bool> IPersonReadRepository.AnyByLoginAsync(string login, CancellationToken cancellationToken)
+            => reader.Read<Person>().NotDeletedAt().AnyAsync(x => x.Login == login, cancellationToken);
     }
 }

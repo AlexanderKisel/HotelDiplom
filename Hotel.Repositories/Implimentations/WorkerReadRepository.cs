@@ -59,5 +59,13 @@ namespace Hotel.Repositories.Implimentations
                 return hashstring;
             }
         }
+
+        Task<bool> IWorkerReadRepository.AnyByPhoneAsync(string phone, CancellationToken cancellationToken)
+            => reader.Read<Worker>().NotDeletedAt().AnyAsync(x => x.Phone == phone, cancellationToken);
+
+        Task<bool> IWorkerReadRepository.AnyByEmailAsync(string email, CancellationToken cancellationToken)
+            => reader.Read<Worker>().NotDeletedAt().AnyAsync(x => x.Email == email, cancellationToken);
+        Task<bool> IWorkerReadRepository.AnyByLoginAsync(string login, CancellationToken cancellationToken)
+            => reader.Read<Worker>().NotDeletedAt().AnyAsync(x => x.Login == login, cancellationToken);
     }
 }

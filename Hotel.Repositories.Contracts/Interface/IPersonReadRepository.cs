@@ -41,6 +41,17 @@ namespace Hotel.Repositories.Contracts.Interface
         /// Проверить есть ли <see cref="Person"/> в колекции
         /// </summary>
         Task<bool> AnyByPhoneAsync(string phone, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Проверить есть ли <see cref="Person"/> в колекции
+        /// </summary>
+        Task<bool> AnyByEmailAsync(string email, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Проверить есть ли <see cref="Person"/> в колекции
+        /// </summary>
+        Task<bool> AnyByLoginAsync(string login, CancellationToken cancellationToken);
+
         /// <summary>
         /// Хеширование пароля
         /// </summary>

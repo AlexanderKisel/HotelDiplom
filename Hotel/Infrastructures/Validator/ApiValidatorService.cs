@@ -24,7 +24,7 @@ namespace Hotel.Infrastructures.Validator
             Register<CreateWorkerRequestValidator>();
             Register<EditWorkerRequestValidator>();
 
-            Register<CreatePersonRequestValidator>(personReadRepository);
+            Register<CreatePersonRequestValidator>(personReadRepository, workerReadRepository);
             Register<EditPersonRequestValidator>();
 
             Register<CreateRoomRequestValidator>();

@@ -59,14 +59,32 @@
         document.getElementById('regForm').addEventListener('submit', function (event) {
             event.preventDefault(); // Отменяем стандартное действие формы
             var formData = new FormData(this);
+
             fetch('/Person/Register', {
                 method: 'POST',
                 body: formData
-            }).then((response) => response.json())
+            })
+                .then((response) => response.json())
                 .then((data) => {
-                    console.log(data)
-                    data.errors.forEach(message => {alert(message.message)})
-            });
+                    console.log(data.id);
+                    console.log(data.errors);
+                    if (data.id) {
+                        // Перенаправление на страницу авторизации
+                        window.location.href = 'AutorizationPage';
+                    } else if (data.errors) {
+                        // Если в ответе есть свойство "errors", выводим сообщения об ошибках
+                        data.errors.forEach(error => {
+                            alert(error.message);
+                        });
+                    } else {
+                        // Если в ответе нет ожидаемых свойств, выводим общее сообщение об ошибке
+                        alert('Произошла ошибка при регистрации. Пожалуйста, попробуйте еще раз.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка:', error);
+                    alert('Произошла ошибка при регистрации. Пожалуйста, попробуйте еще раз.');
+                });
         });
     </script>
 </body>
