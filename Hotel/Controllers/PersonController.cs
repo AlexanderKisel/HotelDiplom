@@ -27,7 +27,7 @@ namespace Hotel.Controllers
             this.validatorService = validatorService;
         }
 
-        [HttpGet, Authorize]
+        [HttpGet, Authorize(Roles = "Admin")]
         [ApiOk]
         [ApiConflict]
         [ApiNotFound]
@@ -40,7 +40,7 @@ namespace Hotel.Controllers
             return Ok(mapper.Map<IEnumerable<PersonResponse>>(result));
         }
 
-        [HttpGet("{id:guid}")]
+        [HttpGet("{id:guid}"), Authorize(Roles = "Admin")]
         [ApiOk]
         [ApiConflict]
         [ApiNotFound]
@@ -69,7 +69,7 @@ namespace Hotel.Controllers
             return Ok(mapper.Map<PersonResponse>(result));
         }
 
-        [HttpPut]
+        [HttpPut, Authorize(Roles = "Admin")]
         [ApiOk]
         [ApiConflict]
         [ApiNotFound]
@@ -83,7 +83,7 @@ namespace Hotel.Controllers
             return Ok(mapper.Map<PersonResponse>(result));
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
         [ApiOk]
         [ApiConflict]
         [ApiNotFound]

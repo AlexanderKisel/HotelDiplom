@@ -5,6 +5,7 @@ using Hotel.Infrastructures.Validator;
 using Hotel.ModelsRequest.Room;
 using Hotel.Services.Contracts.Interface;
 using Hotel.Services.Contracts.ModelsRequest;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -52,7 +53,7 @@ namespace Hotel.Controllers
             return Ok(mapper.Map<RoomResponse>(result));
         }
 
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Admin")]
         [ApiOk]
         [ApiConflict]
         [ApiNotFound]
@@ -66,7 +67,7 @@ namespace Hotel.Controllers
             return Ok(mapper.Map<RoomResponse>(result));
         }
 
-        [HttpPut]
+        [HttpPut, Authorize(Roles = "Admin")]
         [ApiOk]
         [ApiConflict]
         [ApiNotFound]
@@ -80,7 +81,7 @@ namespace Hotel.Controllers
             return Ok(mapper.Map<RoomResponse>(result));
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
         [ApiOk]
         [ApiConflict]
         [ApiNotFound]

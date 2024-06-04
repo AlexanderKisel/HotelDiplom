@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Hotel.Api.Models;
 using Hotel.Attridute;
 using Hotel.Infrastructures.Validator;
 using Hotel.Services.Contracts;
@@ -30,8 +31,8 @@ namespace Hotel.Api.Controllers
         [ApiNotFound]
         public async Task<IActionResult> AutorizationPerson(string login, string password, CancellationToken cancellationToken)
         {
-            var token = await tokenService.AutorizationPerson(login, password, cancellationToken);
-            return Ok(token);
+            var result = await tokenService.AutorizationPerson(login, password, cancellationToken);
+            return Ok(mapper.Map<AuthResponse>(result));
         }
     }
 }

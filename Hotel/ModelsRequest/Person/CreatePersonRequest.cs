@@ -1,4 +1,6 @@
-﻿namespace Hotel.ModelsRequest.Person
+﻿using Hotel.Api.Models.Enums;
+
+namespace Hotel.ModelsRequest.Person
 {
     public class CreatePersonRequest
     {

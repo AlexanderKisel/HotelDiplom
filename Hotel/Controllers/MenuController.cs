@@ -6,6 +6,7 @@ using Hotel.ModelsRequest.Menu;
 using Hotel.Services.Contracts.Exceptions;
 using Hotel.Services.Contracts.Interface;
 using Hotel.Services.Contracts.ModelsRequest;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -53,7 +54,7 @@ namespace Hotel.Controllers
             return Ok(mapper.Map<MenuResponse>(result));
         }
 
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Admin")]
         [ApiOk]
         [ApiConflict]
         [ApiNotFound]
@@ -68,7 +69,7 @@ namespace Hotel.Controllers
 
         }
 
-        [HttpPut]
+        [HttpPut, Authorize(Roles = "Admin")]
         [ApiOk]
         [ApiConflict]
         [ApiNotFound]
@@ -82,7 +83,7 @@ namespace Hotel.Controllers
             return Ok(mapper.Map<MenuResponse>(result));
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
         [ApiOk]
         [ApiConflict]
         [ApiNotFound]

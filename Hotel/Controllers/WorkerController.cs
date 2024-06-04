@@ -6,6 +6,7 @@ using Hotel.ModelsRequest.Room;
 using Hotel.ModelsRequest.Worker;
 using Hotel.Services.Contracts.Interface;
 using Hotel.Services.Contracts.ModelsRequest;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -27,7 +28,7 @@ namespace Hotel.Controllers
             this.validatorService = validatorService;
         }
 
-        [HttpGet]
+        [HttpGet, Authorize(Roles = "Admin")]
         [ApiOk]
         [ApiConflict]
         [ApiNotFound]
@@ -38,7 +39,7 @@ namespace Hotel.Controllers
             return Ok(mapper.Map<IEnumerable<WorkerResponse>>(result));
         }
 
-        [HttpGet("{id:guid}")]
+        [HttpGet("{id:guid}"), Authorize(Roles = "Admin")]
         [ApiOk]
         [ApiConflict]
         [ApiNotFound]
@@ -53,7 +54,7 @@ namespace Hotel.Controllers
             return Ok(mapper.Map<WorkerResponse>(result));
         }
 
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Admin")]
         [ApiOk]
         [ApiConflict]
         [ApiNotFound]
@@ -67,7 +68,7 @@ namespace Hotel.Controllers
             return Ok(mapper.Map<WorkerResponse>(result));
         }
 
-        [HttpPut]
+        [HttpPut, Authorize(Roles = "Admin")]
         [ApiOk]
         [ApiConflict]
         [ApiNotFound]
@@ -81,7 +82,7 @@ namespace Hotel.Controllers
             return Ok(mapper.Map<WorkerResponse>(result));
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
         [ApiOk]
         [ApiConflict]
         [ApiNotFound]

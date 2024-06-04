@@ -55,6 +55,8 @@ namespace Hotel.Infrastructures
                 .ForMember(x => x.FIOWorker, y => y.MapFrom(z => $"{z.Worker.FIO}"));
             CreateMap<CreateBookingRequest, BookingRequestModel>(MemberList.Destination);
             CreateMap<EditBookingRequest, BookingRequestModel>(MemberList.Destination);
+
+            CreateMap<AuthModel, AuthResponse>(MemberList.Destination);
         }
     }
 }

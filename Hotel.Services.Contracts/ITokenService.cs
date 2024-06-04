@@ -1,7 +1,10 @@
-﻿namespace Hotel.Services.Contracts
+﻿using Hotel.Context.Contracts.Enums;
+using Hotel.Services.Contracts.Models;
+
+namespace Hotel.Services.Contracts
 {
     public interface ITokenService
     {
-        Task<string> AutorizationPerson(string login, string password, CancellationToken cancellationToken);
+        Task<AuthModel> AutorizationPerson(string login, string password, CancellationToken cancellationToken);
     }
 }

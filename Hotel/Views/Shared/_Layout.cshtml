@@ -19,18 +19,36 @@
                 <li><a asp-controller="Transition" asp-action="QandAPage">Обратная связь</a></li>
             </ul>
         </nav>
-        <div class="actions">
+        <div class="unauthorized-actions">
             <form id="registerForm" action="@Url.Action("RegisterPage", "Transition")" method="get" style="display: inline;">
                 <button class="registerBtn" type="submit">Регистрация</button>
             </form>
-
             <form id="authorizationForm" action="@Url.Action("AutorizationPage", "Transition")" method="get" style="display: inline;">
                 <button class="authorizationBtn" type="submit">Авторизация</button>
             </form> 
         </div>
-        <div class="notactions">
+        <div class="user-actions">
             <form id="deleteTokenButton" action="@Url.Action("HomePage", "Transition")" method="get" style="display: inline;">
                 <button class="exitBtn" type="submit">Выйти</button>
+            </form>
+        </div>
+        <div class="manager-actions">
+            <form id="deleteTokenButton" action="@Url.Action("HomePage", "Transition")" method="get" style="display: inline;">
+                <button class="exitBtn" type="submit">Выйти</button>
+            </form>
+            <form id ="rezervCopyForm" action="@Url.Action("BackupDatabase", "YourControllerName")" method="post" style="display: inline;">
+                <button class="rezervCopyBtn" type="submit">Резервное копирование БД</button>
+            </form>
+        </div>
+        <div class="admin-actions">
+            <form id="deleteTokenButton" action="@Url.Action("HomePage", "Transition")" method="get" style="display: inline;">
+                <button class="exitBtn" type="submit">Выйти</button>
+            </form>
+            <form id="adminForm" action="https://localhost:7134/swagger/index.html" style="display: inline;">
+                <button class="adminBtn" type="submit">Панель администратора</button>
+            </form>
+            <form id="rezervCopyForm" style="display: inline;">
+                <button class="rezervCopyBtn" onclick="backupDatabase()">Резервное копирование БД</button>
             </form>
         </div>
     </header>
@@ -56,38 +74,103 @@
         </div>
     </footer>
     <script>
-        // Проверяем статус загрузки страницы
+        function backupDatabase() {
+            fetch(`https://localhost:7134/BackupDatabase/Copy`, {
+                method: "POST"
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // Действия после успешного резервного копирования
+                        console.log('База данных успешно скопирована');
+                    } else {
+                        // Обработка ошибки
+                        console.error('Ошибка при резервном копировании базы данных');
+                    }
+                })
+                .catch(error => {
+                    // Обработка ошибки
+                    console.error('Произошла ошибка:', error);
+                });
+        }
+
         if (document.readyState === 'complete' || document.readyState === 'interactive') {
-            // Если страница уже загружена или находится в процессе загрузки, выполняем код немедленно
             checkToken();
         } else {
-            // Если страница все еще загружается, ждем события DOMContentLoaded
             document.addEventListener('DOMContentLoaded', checkToken);
         }
 
         function checkToken() {
-            // Получаем значение cookie
             function getCookie(name) {
                 const value = `; ${document.cookie}`;
                 const parts = value.split(`; ${name}=`);
                 if (parts.length === 2) return parts.pop().split(';').shift();
             }
 
-            // Проверяем наличие JWT-токена
             const jwtToken = getCookie('jwtToken');
-            if (jwtToken) {
-                // Если JWT-токен найден, выполняем нужные действия
-                console.log('JWT-токен найден:', jwtToken);
-                const elementsToHide = document.querySelectorAll('.actions');
-                elementsToHide.forEach(function (element) {
+            const userRole = getCookie('userRole');
+
+            if (jwtToken && userRole) {
+                const role = parseInt(userRole, 10);
+                const unauthorizedElements = document.querySelectorAll('.unauthorized-actions');
+                const userElements = document.querySelectorAll('.user-actions');
+                const managerElements = document.querySelectorAll('.manager-actions');
+                const adminElements = document.querySelectorAll('.admin-actions');
+
+                unauthorizedElements.forEach(function (element) {
+                    element.style.display = "none"
+                });
+
+                if (role === 0) {
+                    // Для обычного пользователя
+                    userElements.forEach(function (element) {
+                        element.style.display = 'block';
+                    });
+                    managerElements.forEach(function (element) {
+                        element.style.display = 'none';
+                    });
+                    adminElements.forEach(function (element) {
+                        element.style.display = 'none';
+                    });
+                } else if (role === 1) {
+                    // Для администратора
+                    adminElements.forEach(function (element) {
+                        element.style.display = 'block';
+                    });
+                    userElements.forEach(function (element) {
+                        element.style.display = 'none';
+                    });
+                    managerElements.forEach(function (element) {
+                        element.style.display = 'none';
+                    });
+                } else if (role === 2) {
+                    // Для менеджера
+                    managerElements.forEach(function (element) {
+                        element.style.display = 'block';
+                    });
+                    userElements.forEach(function (element) {
+                        element.style.display = 'none';
+                    });
+                    adminElements.forEach(function (element) {
+                        element.style.display = 'none';
+                    });
+                }
+            } else {
+                // Для неавторизованного пользователя
+                console.log("JWT-token или userRole не найден");
+                const unauthorizedElements = document.querySelectorAll('.unauthorized-actions');
+                unauthorizedElements.forEach(function (element) {
+                    element.style.display = "block"
+                });
+                const userElements = document.querySelectorAll('.user-actions');
+                userElements.forEach(function (element) {
                     element.style.display = 'none';
                 });
-                // Дополнительные действия здесь, например, отображение контента для авторизованных пользователей
-            } else {
-                // Если JWT-токен не найден, можно выполнить другие действия
-                console.log('JWT-токен не найден');
-                const elementsToHide = document.querySelectorAll('.notactions');
-                elementsToHide.forEach(function (element) {
+                const managerElements = document.querySelectorAll('.manager-actions');
+                managerElements.forEach(function (element) {
+                    element.style.display = 'none';
+                });
+                const adminElements = document.querySelectorAll('.admin-actions');
+                adminElements.forEach(function (element) {
                     element.style.display = 'none';
                 });
             }
@@ -96,18 +179,19 @@
         function deleteJwtToken() {
             // Устанавливаем срок действия cookie в прошлое, чтобы он истек
             document.cookie = "jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
             // Можно также удалить другие параметры cookie, если они есть
             // document.cookie = "другие_параметры=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
             console.log("JWT-токен успешно удален из cookie!");
         }
 
-        // Находим кнопку, на которую пользователь будет нажимать
-        const deleteTokenButton = document.getElementById('deleteTokenButton');
+        // Находим все формы с id "deleteTokenButton"
+        const deleteTokenButtons = document.querySelectorAll('#deleteTokenButton');
 
-        // Назначаем обработчик события нажатия на кнопку
-        deleteTokenButton.addEventListener('click', deleteJwtToken);
+        // Назначаем обработчик события нажатия на каждую кнопку
+        deleteTokenButtons.forEach(button => {
+            button.addEventListener('click', deleteJwtToken);
+        });
     </script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
