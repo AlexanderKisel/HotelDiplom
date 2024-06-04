@@ -1,4 +1,4 @@
-﻿using Hotel.Context.Contracts.Enums;
+﻿using Hotel.Services.Contracts.Models.Enums;
 
 namespace Hotel.Services.Contracts.Models
 {
@@ -49,6 +49,6 @@ namespace Hotel.Services.Contracts.Models
         /// <summary>
         /// Должность
         /// </summary>
-        public Posts Posts { get; set; } = Posts.None;
+        public PostModel Posts { get; set; } = PostModel.None;
     }
 }

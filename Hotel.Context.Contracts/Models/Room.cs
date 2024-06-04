@@ -35,7 +35,7 @@ namespace Hotel.Context.Contracts.Models
         /// <summary>
         /// Тип номера
         /// </summary>
-        public TypeRooms TypeRooms { get; set; } = TypeRooms.None;
+        public TypeRooms TypeRoom { get; set; } = TypeRooms.None;
 
 
         /// <summary>

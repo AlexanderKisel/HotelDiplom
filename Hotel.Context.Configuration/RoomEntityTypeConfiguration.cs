@@ -14,7 +14,7 @@ namespace Hotel.Context.Configuration
             builder.Property(x => x.Number).IsRequired();
             builder.Property(x => x.NumberOfSeats).IsRequired();
             builder.Property(x => x.NumberOfRooms).IsRequired();
-            builder.Property(x => x.TypeRooms).IsRequired();
+            builder.Property(x => x.TypeRoom).IsRequired();
             builder.Property(x => x.Price).IsRequired();
             builder.Property(x => x.Description).IsRequired();
 

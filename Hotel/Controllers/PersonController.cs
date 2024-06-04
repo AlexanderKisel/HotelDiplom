@@ -29,9 +29,6 @@ namespace Hotel.Controllers
 
         [HttpGet, Authorize(Roles = "Admin")]
         [ApiOk]
-        [ApiConflict]
-        [ApiNotFound]
-        [ApiNotAcceptable]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var login = User.Identity.Name;

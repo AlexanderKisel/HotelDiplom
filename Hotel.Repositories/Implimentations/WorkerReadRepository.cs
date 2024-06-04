@@ -17,12 +17,12 @@ namespace Hotel.Repositories.Implimentations
             this.reader = reader;
         }
 
-        Task<List<Worker>> IWorkerReadRepository.GetAllAsync(CancellationToken cancellationToken)
+        Task<IReadOnlyCollection<Worker>> IWorkerReadRepository.GetAllAsync(CancellationToken cancellationToken)
             => reader.Read<Worker>()
             .NotDeletedAt()
             .OrderBy(x => x.FIO)
             .ThenBy(x => x.Login)
-            .ToListAsync(cancellationToken);
+            .ToReadOnlyCollectionAsync(cancellationToken);
 
         Task<Worker?> IWorkerReadRepository.GetByIdAsync(Guid id, CancellationToken cancellationToken)
             => reader.Read<Worker>()

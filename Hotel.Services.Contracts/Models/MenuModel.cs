@@ -1,4 +1,4 @@
-﻿using Hotel.Context.Contracts.Enums;
+﻿using Hotel.Services.Contracts.Models.Enums;
 
 namespace Hotel.Services.Contracts.Models
 {
@@ -30,6 +30,6 @@ namespace Hotel.Services.Contracts.Models
         /// <summary>
         /// Вид блюда
         /// </summary>
-        public TypeEat TypeEat { get; set; } = TypeEat.None;
+        public TypeEatModel TypeEat { get; set; } = TypeEatModel.None;
     }
 }

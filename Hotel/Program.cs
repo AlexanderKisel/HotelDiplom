@@ -12,7 +12,7 @@ builder.Services.GetAuthentication();
 builder.Services.AddControllers(x =>
 {
     x.Filters.Add<HotelExceptionFilter>();
-});
+}).AddControllersAsServices();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.GetSwaggerDocument();

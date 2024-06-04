@@ -69,9 +69,6 @@ namespace Hotel.Controllers
 
         [HttpPut, Authorize(Roles = "Admin")]
         [ApiOk]
-        [ApiConflict]
-        [ApiNotFound]
-        [ApiNotAcceptable]
         public async Task<IActionResult> Edit(EditBookingRequest request, CancellationToken cancellationToken)
         {
             await validatorService.ValidateAsync(request, cancellationToken);

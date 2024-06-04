@@ -6,6 +6,7 @@ using Hotel.Repositories.Contracts.Interface;
 using Hotel.Services.Contracts.Exceptions;
 using Hotel.Services.Contracts.Interface;
 using Hotel.Services.Contracts.Models;
+using Hotel.Services.Contracts.Models.Enums;
 using Hotel.Services.Contracts.ModelsRequest;
 
 namespace Hotel.Services.Implementations
@@ -51,7 +52,7 @@ namespace Hotel.Services.Implementations
                 NumberOfRooms = room.NumberOfRooms,
                 Price = room.Price,
                 Description = room.Description,
-                TypeRooms = (TypeRooms)room.TypeRooms
+                TypeRoom = (TypeRooms)room.TypeRooms
             };
 
             roomWriteRepository.Add(item);
@@ -71,7 +72,7 @@ namespace Hotel.Services.Implementations
             targetRoom.NumberOfRooms = source.NumberOfRooms;
             targetRoom.Price = source.Price;
             targetRoom.Description = source.Description;
-            targetRoom.TypeRooms = (TypeRooms)source.TypeRooms;
+            targetRoom.TypeRoom = source.TypeRooms;
 
             roomWriteRepository.Update(targetRoom);
             await unitOfWork.SaveChangesAsync(cancellationToken);

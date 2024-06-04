@@ -1,4 +1,4 @@
-﻿using Hotel.Context.Contracts.Enums;
+﻿using Hotel.Services.Contracts.Models.Enums;
 
 namespace Hotel.Services.Contracts.Models
 {
@@ -40,6 +40,6 @@ namespace Hotel.Services.Contracts.Models
         /// <summary>
         /// Тип номера
         /// </summary>
-        public TypeRooms TypeRooms { get; set; } = TypeRooms.None;
+        public TypeRoomModel TypeRoom { get; set; } = TypeRoomModel.None;
     }
 }

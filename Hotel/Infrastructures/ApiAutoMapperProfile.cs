@@ -31,29 +31,35 @@ namespace Hotel.Infrastructures
                 .ReverseMap();
 
             CreateMap<RoomModel, RoomResponse>(MemberList.Destination)
-                .ForMember(x => x.TypeRoom, y => y.MapFrom(z => z.TypeRooms.GetDisplayName()));
-            CreateMap<CreateRoomRequest, RoomRequestModel>(MemberList.Destination);
+                .ForMember(x => x.TypeRoom, y => y.MapFrom(z => z.TypeRoom.ToString()));
+            CreateMap<CreateRoomRequest, RoomRequestModel>(MemberList.Destination)
+                .ForMember(x => x.Id, opt => opt.Ignore());
             CreateMap<EditRoomRequest, RoomRequestModel>(MemberList.Destination);
 
             CreateMap<WorkerModel, WorkerResponse>(MemberList.Destination)
-                .ForMember(x => x.Post, y => y.MapFrom(z => z.Posts.GetDisplayName()));
-            CreateMap<CreateWorkerRequest, WorkerRequestModel>(MemberList.Destination);
+                .ForMember(x => x.Post, y => y.MapFrom(z => z.Posts.ToString()));
+            CreateMap<CreateWorkerRequest, WorkerRequestModel>(MemberList.Destination)
+                .ForMember(x => x.Id, opt => opt.Ignore());
             CreateMap<EditWorkerRequest, WorkerRequestModel>(MemberList.Destination);
 
             CreateMap<MenuModel, MenuResponse>(MemberList.Destination)
-                .ForMember(x => x.TypeEat, y => y.MapFrom(z => z.TypeEat.GetDisplayName()));
-            CreateMap<CreateMenuRequest, MenuRequestModel>(MemberList.Destination);
+                .ForMember(x => x.TypeEat, y => y.MapFrom(z => z.TypeEat.ToString()));
+            CreateMap<CreateMenuRequest, MenuRequestModel>(MemberList.Destination)
+                .ForMember(x => x.Id, opt => opt.Ignore());
             CreateMap<EditMenuRequest, MenuRequestModel>(MemberList.Destination);
 
             CreateMap<PersonModel, PersonResponse>(MemberList.Destination);
-            CreateMap<CreatePersonRequest, PersonRequestModel>(MemberList.Destination);
+            CreateMap<CreatePersonRequest, PersonRequestModel>(MemberList.Destination)
+                 .ForMember(x => x.Id, opt => opt.Ignore());
             CreateMap<EditPersonRequest, PersonRequestModel>(MemberList.Destination);
 
             CreateMap<BookingModel, BookingResponse>(MemberList.Destination)
                 .ForMember(x => x.NumberRoom, y => y.MapFrom(z => $"{z.Room.Number}"))
+                .ForMember(x => x.PriceRoom, y => y.MapFrom(z => $"{z.Room.Price}"))
                 .ForMember(x => x.FIOPerson, y => y.MapFrom(z => $"{z.Person.FIO}"))
                 .ForMember(x => x.FIOWorker, y => y.MapFrom(z => $"{z.Worker.FIO}"));
-            CreateMap<CreateBookingRequest, BookingRequestModel>(MemberList.Destination);
+            CreateMap<CreateBookingRequest, BookingRequestModel>(MemberList.Destination)
+                .ForMember(x => x.Id, opt => opt.Ignore());
             CreateMap<EditBookingRequest, BookingRequestModel>(MemberList.Destination);
 
             CreateMap<AuthModel, AuthResponse>(MemberList.Destination);

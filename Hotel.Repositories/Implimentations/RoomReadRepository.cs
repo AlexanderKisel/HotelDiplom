@@ -25,6 +25,7 @@ namespace Hotel.Repositories.Implimentations
         Task<Room?> IRoomReadRepository.GetByIdAsync(Guid id, CancellationToken cancellationToken)
             => reader.Read<Room>()
             .ById(id)
+            .NotDeletedAt()
             .FirstOrDefaultAsync(cancellationToken);
 
         Task<Dictionary<Guid, Room>> IRoomReadRepository.GetIdsAsync(IEnumerable<System.Guid> ids, CancellationToken cancellationToken)

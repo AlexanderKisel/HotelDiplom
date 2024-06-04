@@ -40,9 +40,6 @@ namespace Hotel.Controllers
 
         [HttpGet("{id:guid}")]
         [ApiOk]
-        [ApiConflict]
-        [ApiNotFound]
-        [ApiNotAcceptable]
         public async Task<IActionResult> GetById([Required] Guid id, CancellationToken cancellationToken)
         {
             var result = await roomService.GetByIdAsync(id, cancellationToken);

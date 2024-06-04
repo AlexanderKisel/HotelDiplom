@@ -87,9 +87,10 @@ nav ul {
 .unauthorized-actions #authorizationForm button,
 .user-actions #deleteTokenButton button,
 .manager-actions #deleteTokenButton button,
-.manager-actions #authorizationForm button,
+.manager-actions #rezervCopyBtn button,
 .admin-actions #deleteTokenButton button,
-.admin-actions #authorizationForm button {
+.admin-actions #rezervCopyForm button,
+.admin-actions #adminForm button {
     background-color: #58a6ff;
     color: #fff;
     border: none;
@@ -99,15 +100,16 @@ nav ul {
     transition: background-color 0.3s;
 }
 
-    .unauthorized-actions #registerForm button:hover,
-    .unauthorized-actions #authorizationForm button:hover,
-    .user-actions #deleteTokenButton button:hover,
-    .manager-actions #deleteTokenButton button:hover,
-    .manager-actions #authorizationForm button:hover,
-    .admin-actions #deleteTokenButton button:hover,
-    .admin-actions #authorizationForm button:hover {
-        background-color: #007bff;
-    }
+.unauthorized-actions #registerForm button,
+.unauthorized-actions #authorizationForm button,
+.user-actions #deleteTokenButton button,
+.manager-actions #deleteTokenButton button,
+.manager-actions #rezervCopyBtn button,
+.admin-actions #deleteTokenButton button,
+.admin-actions #rezervCopyForm button,
+.admin-actions #adminForm button {
+    background-color: #007bff;
+}
 footer {
     position: absolute;
     bottom: 0;

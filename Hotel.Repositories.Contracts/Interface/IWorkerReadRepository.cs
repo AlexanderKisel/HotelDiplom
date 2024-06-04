@@ -10,7 +10,7 @@ namespace Hotel.Repositories.Contracts.Interface
         /// <summary>
         /// Получить список всех <see cref="Worker"/>
         /// </summary>
-        Task<List<Worker>> GetAllAsync(CancellationToken cancellationToken);
+        Task<IReadOnlyCollection<Worker>> GetAllAsync(CancellationToken cancellationToken);
 
         /// <summary>
         /// Получить <see cref="Worker"/> по илентификатору

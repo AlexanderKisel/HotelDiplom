@@ -30,9 +30,6 @@ namespace Hotel.Controllers
 
         [HttpGet("[action]")]
         [ApiOk]
-        [ApiConflict]
-        [ApiNotFound]
-        [ApiNotAcceptable]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var result = await menuService.GetAllAsync(cancellationToken);
