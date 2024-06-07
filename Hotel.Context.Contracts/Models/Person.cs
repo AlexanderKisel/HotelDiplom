@@ -1,4 +1,6 @@
-﻿namespace Hotel.Context.Contracts.Models
+﻿using Hotel.Context.Contracts.Enums;
+
+namespace Hotel.Context.Contracts.Models
 {
     /// <summary>
     /// Персона(Клиент), человек совершающий бронь

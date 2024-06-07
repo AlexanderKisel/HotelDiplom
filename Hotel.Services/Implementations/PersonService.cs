@@ -50,7 +50,7 @@ namespace Hotel.Services.Implementations
                 Email = person.Email,
                 Phone = person.Phone,
                 Login = person.Login,
-                Password = person.Password,
+                Password = personReadRepository.GetHashSha256(person.Password),
                 Birthday = person.Birthday,
             };
 

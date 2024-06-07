@@ -17,10 +17,10 @@ namespace Hotel.Context.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("ProductVersion", "6.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("Hotel.Context.Contracts.Models.Booking", b =>
                 {
@@ -36,19 +36,19 @@ namespace Hotel.Context.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<DateOnly>("DateEnd")
-                        .HasColumnType("date");
+                    b.Property<DateTimeOffset>("DateEnd")
+                        .HasColumnType("datetimeoffset");
 
-                    b.Property<DateOnly>("DateReg")
-                        .HasColumnType("date");
+                    b.Property<DateTimeOffset>("DateReg")
+                        .HasColumnType("datetimeoffset");
 
-                    b.Property<DateOnly>("DateStart")
-                        .HasColumnType("date");
+                    b.Property<DateTimeOffset>("DateStart")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("DeletedAt")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid>("PersonId")
+                    b.Property<Guid?>("PersonId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("RoomId")
@@ -62,7 +62,7 @@ namespace Hotel.Context.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<Guid>("WorkerId")
+                    b.Property<Guid?>("WorkerId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -160,7 +160,7 @@ namespace Hotel.Context.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
                         .IsRequired()
@@ -184,11 +184,6 @@ namespace Hotel.Context.Migrations
                     b.HasIndex("Login")
                         .IsUnique()
                         .HasDatabaseName("IX_Person_Login")
-                        .HasFilter("DeletedAt is null");
-
-                    b.HasIndex("Password")
-                        .IsUnique()
-                        .HasDatabaseName("IX_Person_Password")
                         .HasFilter("DeletedAt is null");
 
                     b.HasIndex("Phone")
@@ -234,7 +229,7 @@ namespace Hotel.Context.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TypeRooms")
+                    b.Property<int>("TypeRoom")
                         .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
@@ -293,7 +288,7 @@ namespace Hotel.Context.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
                         .IsRequired()
@@ -327,11 +322,6 @@ namespace Hotel.Context.Migrations
                         .HasDatabaseName("IX_Worker_Passport")
                         .HasFilter("DeletedAt is null");
 
-                    b.HasIndex("Password")
-                        .IsUnique()
-                        .HasDatabaseName("IX_Worker_Password")
-                        .HasFilter("DeletedAt is null");
-
                     b.HasIndex("Phone")
                         .IsUnique()
                         .HasDatabaseName("IX_Worker_Phone")
@@ -344,9 +334,7 @@ namespace Hotel.Context.Migrations
                 {
                     b.HasOne("Hotel.Context.Contracts.Models.Person", "Person")
                         .WithMany("Bookings")
-                        .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PersonId");
 
                     b.HasOne("Hotel.Context.Contracts.Models.Room", "Room")
                         .WithMany("Bookings")
@@ -356,9 +344,7 @@ namespace Hotel.Context.Migrations
 
                     b.HasOne("Hotel.Context.Contracts.Models.Worker", "Worker")
                         .WithMany("Bookings")
-                        .HasForeignKey("WorkerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WorkerId");
 
                     b.Navigation("Person");
 

@@ -16,16 +16,17 @@ namespace Hotel.Repositories.Implimentations
         }
         Task<bool> IMenuReadRepository.AnyByIdAsync(Guid id, CancellationToken cancellationToken)
             => reader.Read<Menu>().NotDeletedAt().AnyAsync(x => x.Id == id, cancellationToken);
-        Task<List<Menu>> IMenuReadRepository.GetAllAsync(CancellationToken cancellationToken)
+        Task<IReadOnlyCollection<Menu>> IMenuReadRepository.GetAllAsync(CancellationToken cancellationToken)
             => reader.Read<Menu>()
             .NotDeletedAt()
             .OrderBy(x => x.Name)
             .ThenBy(x => x.Price)
-            .ToListAsync(cancellationToken);
+            .ToReadOnlyCollectionAsync(cancellationToken);
 
         Task<Menu?> IMenuReadRepository.GetByIdAsync(Guid id, CancellationToken cancellationToken)
             => reader.Read<Menu>()
             .ById(id)
+            .NotDeletedAt()
             .FirstOrDefaultAsync(cancellationToken);
 
         Task<Dictionary<Guid, Menu>> IMenuReadRepository.GetIdsAsync(IEnumerable <Guid> ids, CancellationToken cancellationToken)

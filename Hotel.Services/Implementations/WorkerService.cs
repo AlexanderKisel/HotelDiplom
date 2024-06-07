@@ -3,6 +3,7 @@ using Hotel.Common.Entity.InterfaceDB;
 using Hotel.Context.Contracts.Enums;
 using Hotel.Context.Contracts.Models;
 using Hotel.Repositories.Contracts.Interface;
+using Hotel.Repositories.Implimentations;
 using Hotel.Services.Contracts.Exceptions;
 using Hotel.Services.Contracts.Interface;
 using Hotel.Services.Contracts.Models;
@@ -50,7 +51,7 @@ namespace Hotel.Services.Implementations
                 Email = worker.Email,
                 Phone = worker.Phone,
                 Login = worker.Login,
-                Password = worker.Password,
+                Password = workerReadRepository.GetHashSha256(worker.Password),
                 Birthday = worker.Birthday,
                 Passport = worker.Passport,
                 Posts = (Posts)worker.Posts,

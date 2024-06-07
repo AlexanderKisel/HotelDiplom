@@ -1,0 +1,85 @@
+﻿@{
+    ViewData["Title"] = "Авторизация";
+}
+<!DOCTYPE html>
+<html lang="ru">
+ <style>
+    form[name = "AuthStyle"] {
+        background: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+        }
+
+    input[name = "Autorization"], 
+    [name = "login"] ,
+    [name = "password"] {
+            padding: 8px;
+            margin: 5px;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+    button[name = "Autorization"] {
+            padding: 8px 16px;
+            margin: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+</style>
+
+<body>
+    <form id="authForm" name="AuthStyle">
+        <h2>Авторизация</h2>
+        <input id="login" name="login" type="text" placeholder="Логин" />
+        <br>
+        <input id="password" name="password" type="password" placeholder="Пароль" />
+        <br>
+        <button id="enter" type="submit" name="Autorization">Войти</button>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/src/js.cookie.min.js"></script>
+    <script>
+        const Post = {
+            None: 0,
+            Admin: 1,
+            Manager: 2
+        };
+        document.getElementById('enter').addEventListener('click', function (event) {
+            event.preventDefault();
+            const login = document.getElementById('login').value;
+            const password = document.getElementById('password').value;
+            console.log(login);
+            console.log(password);
+            const response = fetch(`https://localhost:7134/Autorization/Auth?login=${login}&password=${password}`, {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            }).then((res) => res.json())
+                .then((parsed) => {
+                    if (parsed.post != null && parsed.token != null) {
+                        window.location.href = `https://localhost:7134?token=${parsed.token}`;
+                        console.log(parsed.token);
+
+                        // Save parsed.post and jwt-token in cookies
+                        const enumValue = Post[parsed.post];
+                        document.cookie = `userRole=${parsed.post}; path=/; SameSite=None; Secure`;
+                        document.cookie = `jwtToken=${parsed.token}; path=/; SameSite=None; Secure`;
+                        // После сохранения поста и токена в cookie
+                        document.cookie = `userId=${parsed.id}; path=/; SameSite=None; Secure`;
+                    } else {
+                        console.error("Ошибка: токен не был получены");
+                    }
+                })
+                .catch((err) => console.error("error", err));
+        });
+    </script>
+</body>
+</html>
+
+      

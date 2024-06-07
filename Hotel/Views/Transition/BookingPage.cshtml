@@ -1,0 +1,233 @@
+﻿@{
+    ViewData["Title"] = "Бронирование";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Получение данных по ID</title>
+    <style>
+        #roomContent {
+            background-color: rgba(255, 255, 255, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .reserveButton {
+            background-color: #58a6ff;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .reserveButton:hover {
+                background-color: #007bff;
+            }
+
+        .room-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+            .room-item img {
+                width: 300px;
+                height: 200px;
+                margin-right: 20px;
+            }
+
+        .room-item-info h3 {
+            margin-top: 0;
+        }
+
+        .room-item-info p {
+            margin-bottom: 0;
+        }
+
+        /* Добавленные стили для dataContainer */
+        #dataContainer,
+        #startDateInput,
+        #totalPrice,
+        #endDateInput {
+            background-color: rgba(255, 255, 255, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+            #dataContainer h2,
+            #startDateInput h2,
+            #totalPrice h2,
+            #endDateInput h2,
+            {
+                margin-top: 0;
+            }
+
+            #dataContainer h3,
+            #dataContainer p,
+            #totalPrice h3,
+            #totalPrice p,
+            #endDateInput h3,
+            #endDateInput p,
+            #startDateInput h3,
+            #startDateInput p {
+                margin-bottom: 10px;
+            }
+
+            #dataContainer span,
+            #endDateInput span,
+            #totalPrice span,
+            #startDateInput span {
+                font-weight: bold;
+            }
+    </style>
+</head>
+    <body>
+    <div id="dataContainer"></div>
+    <input type="date" id="startDateInput">
+    <input type="date" id="endDateInput">
+    <p id ="totalPrice">Расчетная стоимость:<span></span></p>
+    <button id="reserveButton" class="reserveButton">Забронировать</button>
+
+    <script>
+        // Получаем элементы input
+        let startDateInput = document.getElementById('startDateInput');
+        let endDateInput = document.getElementById('endDateInput');
+
+        // Устанавливаем текущую дату в формате yyyy-mm-dd
+        let today = new Date().toISOString().split('T')[0];
+
+        // Устанавливаем атрибут min для startDateInput и endDateInput равным текущей дате
+        startDateInput.setAttribute('min', today);
+        endDateInput.setAttribute('min', today);
+
+        // Обработчик события для изменения значения startDateInput
+        startDateInput.addEventListener('change', function () {
+            endDateInput.setAttribute('min', startDateInput.value);
+        });
+
+        // Обработчик события для изменения значения endDateInput
+        endDateInput.addEventListener('change', function () {
+            startDateInput.setAttribute('max', endDateInput.value);
+        });
+
+        const reserveButton = document.getElementById('reserveButton');
+
+        reserveButton.addEventListener('click', bookRoom);
+
+        async function bookRoom() {
+            const startDate = document.getElementById('startDateInput').value;
+            const endDate = document.getElementById('endDateInput').value;
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const roomId = urlParams.get('roomId');
+
+            // Функция для получения значения cookie по ее имени
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            }
+
+            // Получение значения userId из cookie
+            const userId = getCookie('userId');
+            const today = new Date().toISOString().split('T')[0];
+            const roleId = getCookie('roleId');
+            var data = {
+                roomId: roomId,
+                dateStart: startDate,
+                dateEnd: endDate,
+                dateReg: today,
+            }; 
+            if (roleId == 0) {
+                //Таблица персон
+                data['personId'] = userId;
+            }else{
+                data['workerId'] = userId;
+            }
+            console.log(data);
+            try {
+                const response = await fetch('/Booking/Create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                console.log(result);
+                if (!response.ok) {
+                    throw new Error(`Ошибка при бронировании: ${response.status}`);
+                }
+                alert('Комната успешно забронирована!');
+            } catch (error) {
+                console.error('Ошибка при бронировании:', error);
+                alert('Произошла ошибка при бронировании.');
+            }
+        }
+    </script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const roomIdToDisplay = urlParams.get('roomId');
+
+        fetchRoomDataById(roomIdToDisplay);
+
+        function fetchRoomDataById(id) {
+            if (!id) {
+                console.error('ID комнаты не определен');
+                return;
+            }
+
+            fetch(`/Room/${id}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Ошибка при получении данных: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => displayRoomData(data))
+                .catch(error => console.error('Ошибка при получении данных:', error));
+        }
+
+        function displayRoomData(data) {
+            const container = document.getElementById('dataContainer');
+            if (!data) {
+                container.innerHTML = `<p>Данные о комнате не получены</p>`;
+                return;
+            }
+
+            container.innerHTML = `
+                        <h2>Категория комнаты: <span>${data.typeRoom}</span></h2>
+                        <h3>Номер: <span>${data.number}</span></h3>
+                        <p>Цена: <span>${data.price}</span></p>
+                        <p>Кол-во мест: <span>${data.numberOfSeats}</span></p>
+                        <p>Кол-во комнат: <span>${data.numberOfRooms}</span></p>
+                        <p>Описание: <span>${data.description}</span></p>
+                    `;
+
+            const startDateInput = document.getElementById('startDateInput');
+            const endDateInput = document.getElementById('endDateInput');
+            const totalPriceSpan = document.getElementById('totalPrice');
+
+            startDateInput.addEventListener('change', () => updateTotalPrice(data.price));
+            endDateInput.addEventListener('change', () => updateTotalPrice(data.price));
+
+            function updateTotalPrice(pricePerDay) {
+                const startDate = new Date(startDateInput.value);
+                const endDate = new Date(endDateInput.value);
+                const numberOfDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
+                const totalPrice = (pricePerDay * (numberOfDays + 1));
+                if (totalPriceSpan) {
+                    totalPriceSpan.innerText = totalPrice.toFixed(2);
+                }
+            }
+
+            updateTotalPrice(data.price);
+        }
+    </script>
+</body>
+</html>

@@ -20,26 +20,26 @@ namespace Hotel.Services.Contracts.ModelsRequest
         /// <summary>
         /// <see cref="Worker"/>
         /// </summary>
-        public Guid WorkerId { get; set; }
+        public Guid? WorkerId { get; set; }
 
         /// <summary>
         /// <see cref="Person"/>
         /// </summary>
-        public Guid PersonId { get; set; }
+        public Guid? PersonId { get; set; }
 
         /// <summary>
         /// Дата бронирования
         /// </summary>
-        public DateOnly DateReg { get; set; }
+        public DateTimeOffset DateReg { get; set; }
 
         /// <summary>
         /// Дата начала проживания(заезд)
         /// </summary>
-        public DateOnly DateStart { get; set; }
+        public DateTimeOffset DateStart { get; set; }
 
         /// <summary>
         /// Дата окончания проживания(съезд)
         /// </summary>
-        public DateOnly DateEnd { get; set; }
+        public DateTimeOffset DateEnd { get; set; }
     }
 }

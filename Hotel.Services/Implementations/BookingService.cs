@@ -34,32 +34,33 @@ namespace Hotel.Services.Implementations
         {
             var bookings = await bookingReadRepository.GetAllAsync(cancellationToken);
             var roomIds = bookings.Select(x => x.RoomId).Distinct();
-            var personIds = bookings.Select(x => x.PersonId).Distinct();
-            var workerIds = bookings.Select(x => x.WorkerId).Distinct();
+            var personIds = bookings.Where(x => x.PersonId!.HasValue).Select(x => x.PersonId!.Value).Distinct();
+            var workerIds = bookings.Where(x => x.WorkerId!.HasValue).Select(x => x.WorkerId!.Value).Distinct();
 
             var roomDictionary = await roomReadRepository.GetIdsAsync(roomIds, cancellationToken);
             var personDictionary = await personReadRepository.GetIdsAsync(personIds, cancellationToken);
             var workerDictionary = await workerReadRepository.GetIdsAsync(workerIds, cancellationToken);
 
+
             var listBookingModel = new List<BookingModel>();
             foreach (var booking in bookings)
             {
+                var bookingMap = mapper.Map<BookingModel>(booking);
                 if (!roomDictionary.TryGetValue(booking.RoomId, out var room))
                 {
                     continue;
                 }
-                if (!personDictionary.TryGetValue(booking.PersonId, out var person))
+                if (booking.PersonId.HasValue && !personDictionary.TryGetValue(booking.PersonId!.Value, out var person))
                 {
+                    bookingMap.Person = mapper.Map<PersonModel>(person);
                     continue;
                 }
-                if (!workerDictionary.TryGetValue(booking.WorkerId, out var worker))
+                if (booking.WorkerId.HasValue && !workerDictionary.TryGetValue(booking.WorkerId!.Value, out var worker))
                 {
+                    bookingMap.Worker = mapper.Map<WorkerModel>(worker);
                     continue;
                 }
-                var bookingMap = mapper.Map<BookingModel>(booking);
                 bookingMap.Room = mapper.Map<RoomModel>(room);
-                bookingMap.Worker = mapper.Map<WorkerModel>(worker);
-                bookingMap.Person = mapper.Map<PersonModel>(person);
 
                 listBookingModel.Add(bookingMap);
             }
@@ -72,12 +73,19 @@ namespace Hotel.Services.Implementations
             {
                 Id = Guid.NewGuid(),
                 RoomId = booking.RoomId,
-                PersonId = booking.PersonId,
-                WorkerId = booking.WorkerId,
                 DateReg = booking.DateReg,
                 DateStart = booking.DateStart,
                 DateEnd = booking.DateEnd,
             };
+
+            if(booking.WorkerId == null)
+            {
+                item.PersonId = booking.PersonId;
+            }
+            else
+            {
+                item.WorkerId = booking.WorkerId;
+            }
 
             bookingWriteRepository.Add(item);
             await unitOfWork.SaveChangesAsync(cancellationToken);
@@ -92,8 +100,8 @@ namespace Hotel.Services.Implementations
                 return null;
             }
             var room = await roomReadRepository.GetByIdAsync(item.RoomId, cancellationToken);
-            var person = await personReadRepository.GetByIdAsync(item.PersonId, cancellationToken);
-            var worker = await workerReadRepository.GetByIdAsync(item.WorkerId, cancellationToken);
+            var person = await personReadRepository.GetByIdAsync(item.PersonId!.Value, cancellationToken);
+            var worker = await workerReadRepository.GetByIdAsync(item.WorkerId!.Value, cancellationToken);
             var booking = mapper.Map<BookingModel>(item);
             booking.Room = room != null
                 ? mapper.Map<RoomModel>(room)
@@ -121,11 +129,22 @@ namespace Hotel.Services.Implementations
             var room = await roomReadRepository.GetByIdAsync(source.RoomId, cancellationToken);
             targetBooking.RoomId = room.Id;
 
-            var person = await personReadRepository.GetByIdAsync(source.PersonId, cancellationToken);
-            targetBooking.PersonId = person.Id;
+            if (source.PersonId.HasValue)
+            {
+                var person = await personReadRepository.GetByIdAsync(source.PersonId!.Value, cancellationToken);
+                if(person != null){
+                    targetBooking.PersonId = person.Id;
+                }
+            }
 
-            var worker = await workerReadRepository.GetByIdAsync(source.WorkerId, cancellationToken);
-            targetBooking.WorkerId = worker.Id;
+            if (source.WorkerId.HasValue)
+            {
+                var worker = await workerReadRepository.GetByIdAsync(source.WorkerId.Value, cancellationToken);
+                if (worker != null)
+                {
+                    targetBooking.WorkerId = worker.Id;
+                }
+            }
 
             bookingWriteRepository.Update(targetBooking);
             await unitOfWork.SaveChangesAsync(cancellationToken);

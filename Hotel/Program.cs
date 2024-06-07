@@ -5,12 +5,16 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddControllersWithViews();
+
+builder.Services.GetAuthentication();
 
 builder.Services.AddControllers(x =>
 {
     x.Filters.Add<HotelExceptionFilter>();
-});
+}).AddControllersAsServices();
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.GetSwaggerDocument();
 builder.Services.AddDependencies();
 
@@ -20,14 +24,33 @@ builder.Services.AddDbContextFactory<HotelContext>(options => options.UseSqlServ
 
 var app = builder.Build();
 
+app.UseCors(options =>
+{
+    options.AllowAnyOrigin();
+    options.AllowAnyMethod();
+    options.AllowAnyHeader();
+});
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.GetSwaggerDocumentUI();
+
+    app.UseExceptionHandler("/Transition/Error");
+    //The default HSTS value is 30 days.You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseAuthentication();
+app.UseRouting();
 app.UseAuthorization();
 app.MapControllers();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Transition}/{action=HomePage}/{id?}");
+
 app.Run();

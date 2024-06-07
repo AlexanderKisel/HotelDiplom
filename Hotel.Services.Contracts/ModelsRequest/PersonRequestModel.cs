@@ -1,4 +1,6 @@
-﻿namespace Hotel.Services.Contracts.ModelsRequest
+﻿using Hotel.Context.Contracts.Enums;
+
+namespace Hotel.Services.Contracts.ModelsRequest
 {
     /// <summary>
     /// Модель персон(клиентов)

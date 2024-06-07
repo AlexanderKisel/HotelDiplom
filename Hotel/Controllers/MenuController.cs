@@ -3,8 +3,10 @@ using Hotel.Api.Models;
 using Hotel.Attridute;
 using Hotel.Infrastructures.Validator;
 using Hotel.ModelsRequest.Menu;
+using Hotel.Services.Contracts.Exceptions;
 using Hotel.Services.Contracts.Interface;
 using Hotel.Services.Contracts.ModelsRequest;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -26,11 +28,8 @@ namespace Hotel.Controllers
             this.validatorService = validatorService;
         }
 
-        [HttpGet]
+        [HttpGet("[action]")]
         [ApiOk]
-        [ApiConflict]
-        [ApiNotFound]
-        [ApiNotAcceptable]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var result = await menuService.GetAllAsync(cancellationToken);
@@ -52,21 +51,22 @@ namespace Hotel.Controllers
             return Ok(mapper.Map<MenuResponse>(result));
         }
 
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Admin")]
         [ApiOk]
         [ApiConflict]
         [ApiNotFound]
         [ApiNotAcceptable]
         public async Task<IActionResult> Create(CreateMenuRequest request, CancellationToken cancellationToken)
         {
-            await validatorService.ValidateAsync(request, cancellationToken);
+                await validatorService.ValidateAsync(request, cancellationToken);
 
-            var menuRequestModel = mapper.Map<MenuRequestModel>(request);
-            var result = await menuService.AddAsync(menuRequestModel, cancellationToken);
-            return Ok(mapper.Map<MenuResponse>(result));
+                var menuRequestModel = mapper.Map<MenuRequestModel>(request);
+                var result = await menuService.AddAsync(menuRequestModel, cancellationToken);
+                return Ok(mapper.Map<MenuResponse>(result));
+
         }
 
-        [HttpPut]
+        [HttpPut, Authorize(Roles = "Admin")]
         [ApiOk]
         [ApiConflict]
         [ApiNotFound]
@@ -80,7 +80,7 @@ namespace Hotel.Controllers
             return Ok(mapper.Map<MenuResponse>(result));
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
         [ApiOk]
         [ApiConflict]
         [ApiNotFound]

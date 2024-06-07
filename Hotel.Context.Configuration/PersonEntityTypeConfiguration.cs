@@ -37,11 +37,6 @@ namespace Hotel.Context.Configuration
                 .IsUnique()
                 .HasFilter($"{nameof(Person.DeletedAt)} is null")
                 .HasDatabaseName($"IX_{nameof(Person)}_{nameof(Person.Login)}");
-
-            builder.HasIndex(x => x.Password)
-                .IsUnique()
-                .HasFilter($"{nameof(Person.DeletedAt)} is null")
-                .HasDatabaseName($"IX_{nameof(Person)}_{nameof(Person.Password)}");
         }
     }
 }

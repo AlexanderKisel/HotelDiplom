@@ -1,4 +1,6 @@
-﻿namespace Hotel.Api.Models.Enums
+﻿using System.ComponentModel;
+
+namespace Hotel.Api.Models.Enums
 {
     /// <summary>
     /// Виды комнат

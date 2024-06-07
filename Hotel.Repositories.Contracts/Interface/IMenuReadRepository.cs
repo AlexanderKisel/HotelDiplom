@@ -10,7 +10,7 @@ namespace Hotel.Repositories.Contracts.Interface
         /// <summary>
         /// Получить список всех <see cref="Menu"/>
         /// </summary>
-        Task<List<Menu>> GetAllAsync(CancellationToken cancellationToken);
+        Task<IReadOnlyCollection<Menu>> GetAllAsync(CancellationToken cancellationToken);
 
         /// <summary>
         /// Получить <see cref="Menu"/> по илентификатору

@@ -13,11 +13,12 @@ namespace Hotel.Api.Infrastructures
     {
         public static void AddDependencies(this IServiceCollection service)
         {
-            service.RegisterAutoMapperProfile<ApiAutoMapperProfile>();
+
             service.AddTransient<IDateTimeProvider, DateTimeProvider>();
             service.AddTransient<IDbWriteContext, DbWriterContext>();
             service.AddTransient<IApiValidatorService, ApiValidatorService>();
 
+            service.RegisterAutoMapperProfile<ApiAutoMapperProfile>();
             service.RegisterModule<ServiceModule>();
             service.RegisterModule<ContextModule>();
             service.RegisterModule<RepositoriyModule>();

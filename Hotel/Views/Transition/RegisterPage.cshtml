@@ -1,0 +1,102 @@
+﻿@{
+    ViewData["Title"] = "Регистрация";
+}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Страница регистрации</title>
+    <style>
+        .register-container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="date"]
+        {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        button[name = "regBtn"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background-color: #0056b3;
+            }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h2>Регистрация</h2>
+        <form id="regForm" action="https://localhost:7134">
+            <input type="text" name="fio" placeholder="ФИО" required>
+            <input type="text" name="email" placeholder="Электронная почта" required>
+            <input type="text" name="phone" pattern="^\+7 \([0-9]{3}\) [0-9]{3}-[0-9]{2}-[0-9]{2}$" placeholder="Номер телефона: +7 (XXX) XXX-XX-XX">
+            <input type="text" name="login" placeholder="Логин" required>
+            <input type="password" name="password" placeholder="Пароль" required>
+            <input type="date" name="birthday" id="birthday" placeholder="Дата рождения" required>
+            <button name="regBtn" type="submit">Зарегистрироваться</button>
+        </form>
+    </div>
+
+
+    <script>
+        const input = document.getElementById('birthday');
+        const today = new Date();
+        const maxDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+
+        input.max = maxDate.toISOString().split('T')[0];
+    </script>
+    <script>
+        document.getElementById('regForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Отменяем стандартное действие формы
+            var formData = new FormData(this);
+
+            fetch('/Person/Register', {
+                method: 'POST',
+                body: formData
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data.id);
+                    console.log(data.errors);
+                    if (data.id) {
+                        // Перенаправление на страницу авторизации
+                        window.location.href = 'AutorizationPage';
+                    } else if (data.errors) {
+                        // Если в ответе есть свойство "errors", выводим сообщения об ошибках
+                        data.errors.forEach(error => {
+                            alert(error.message);
+                        });
+                    } else {
+                        // Если в ответе нет ожидаемых свойств, выводим общее сообщение об ошибке
+                        alert('Произошла ошибка при регистрации. Пожалуйста, попробуйте еще раз.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка:', error);
+                    alert('Произошла ошибка при регистрации. Пожалуйста, попробуйте еще раз.');
+                });
+        });
+    </script>
+</body>
+</html>

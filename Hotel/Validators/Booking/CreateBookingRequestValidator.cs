@@ -20,26 +20,6 @@ namespace Hotel.Api.Validators.Booking
                     return room;
                 })
                 .WithMessage("Такого номера не существует");
-            RuleFor(booking => booking.WorkerId)
-                .NotNull()
-                .NotEmpty()
-                .WithMessage("Поле работника не должно быть пустым")
-                .MustAsync(async (id, cancellationToken) =>
-                {
-                    var worker = await workerReadRepository.AnyByIdAsync(id, cancellationToken);
-                    return worker;
-                })
-                .WithMessage("Такого работника не существует");
-            RuleFor(booking => booking.PersonId)
-                .NotNull()
-                .NotEmpty()
-                .WithMessage("Поле персоны не должно быть пустым")
-                .MustAsync(async (id, cancellationToken) =>
-                {
-                    var person = await personReadRepository.AnyByIdAsync(id, cancellationToken);
-                    return person;
-                })
-                .WithMessage("Такой персоны не существует");
             RuleFor(booking => booking.DateReg)
                 .NotNull()
                 .NotEmpty()

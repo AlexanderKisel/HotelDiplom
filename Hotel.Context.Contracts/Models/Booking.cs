@@ -20,7 +20,7 @@
         /// <see cref="Worker"/>
         /// В бронировании указывается сотрудник прикрепленный к этой комнате
         /// </summary>
-        public Guid WorkerId { get; set; }
+        public Guid? WorkerId { get; set; } = null;
 
         /// <summary>
         /// Сотрудник
@@ -31,7 +31,7 @@
         /// <see cref="Person"/>
         /// В бронировании указывается человек, совершающий бронь
         /// </summary>
-        public Guid PersonId { get; set; }
+        public Guid? PersonId { get; set; } = null;
 
         /// <summary>
         /// Персона(Клиент)
@@ -41,16 +41,16 @@
         /// <summary>
         /// Дата бронирования
         /// </summary>
-        public DateOnly DateReg { get; set; }
+        public DateTimeOffset DateReg { get; set; }
 
         /// <summary>
         /// Дата начала проживания(заезд)
         /// </summary>
-        public DateOnly DateStart { get; set; }
+        public DateTimeOffset DateStart { get; set; }
         
         /// <summary>
         /// Дата окончания проживания(съезд)
         /// </summary>
-        public DateOnly DateEnd { get; set; }
+        public DateTimeOffset DateEnd { get; set; }
     }
 }
