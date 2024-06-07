@@ -33,5 +33,10 @@ namespace Hotel.Api.Controllers
         {
             return View();
         }
+
+        public IActionResult ThankYou()
+        {
+            return View();
+        }
     }
 }

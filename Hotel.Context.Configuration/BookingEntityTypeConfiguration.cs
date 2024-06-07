@@ -12,8 +12,8 @@ namespace Hotel.Context.Configuration
             builder.HasIdAsKey();
             builder.PropertyAuditConfiguration();
             builder.Property(x => x.RoomId).IsRequired();
-            builder.Property(x => x.WorkerId).IsRequired();
-            builder.Property(x => x.PersonId).IsRequired();
+            builder.Property(x => x.WorkerId);
+            builder.Property(x => x.PersonId);
             builder.Property(x => x.DateReg).IsRequired();
             builder.Property(x => x.DateStart).IsRequired();
             builder.Property(x => x.DateEnd).IsRequired();

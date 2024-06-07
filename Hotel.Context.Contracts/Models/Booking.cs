@@ -20,7 +20,7 @@
         /// <see cref="Worker"/>
         /// В бронировании указывается сотрудник прикрепленный к этой комнате
         /// </summary>
-        public Guid WorkerId { get; set; }
+        public Guid? WorkerId { get; set; } = null;
 
         /// <summary>
         /// Сотрудник
@@ -31,7 +31,7 @@
         /// <see cref="Person"/>
         /// В бронировании указывается человек, совершающий бронь
         /// </summary>
-        public Guid PersonId { get; set; }
+        public Guid? PersonId { get; set; } = null;
 
         /// <summary>
         /// Персона(Клиент)

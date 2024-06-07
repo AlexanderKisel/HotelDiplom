@@ -4,6 +4,7 @@ using Hotel.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hotel.Context.Migrations
 {
     [DbContext(typeof(HotelContext))]
-    partial class HotelContextModelSnapshot : ModelSnapshot
+    [Migration("20240607113151_fff")]
+    partial class fff
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,7 +50,7 @@ namespace Hotel.Context.Migrations
                     b.Property<DateTimeOffset?>("DeletedAt")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid?>("PersonId")
+                    b.Property<Guid>("PersonId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("RoomId")
@@ -62,7 +64,7 @@ namespace Hotel.Context.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<Guid?>("WorkerId")
+                    b.Property<Guid>("WorkerId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -334,7 +336,9 @@ namespace Hotel.Context.Migrations
                 {
                     b.HasOne("Hotel.Context.Contracts.Models.Person", "Person")
                         .WithMany("Bookings")
-                        .HasForeignKey("PersonId");
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Hotel.Context.Contracts.Models.Room", "Room")
                         .WithMany("Bookings")
@@ -344,7 +348,9 @@ namespace Hotel.Context.Migrations
 
                     b.HasOne("Hotel.Context.Contracts.Models.Worker", "Worker")
                         .WithMany("Bookings")
-                        .HasForeignKey("WorkerId");
+                        .HasForeignKey("WorkerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Person");
 

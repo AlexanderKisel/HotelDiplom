@@ -20,12 +20,12 @@ namespace Hotel.Services.Contracts.ModelsRequest
         /// <summary>
         /// <see cref="Worker"/>
         /// </summary>
-        public Guid WorkerId { get; set; }
+        public Guid? WorkerId { get; set; }
 
         /// <summary>
         /// <see cref="Person"/>
         /// </summary>
-        public Guid PersonId { get; set; }
+        public Guid? PersonId { get; set; }
 
         /// <summary>
         /// Дата бронирования

@@ -1,6 +1,9 @@
-﻿@{
+﻿@model Hotel.Api.Models.FeedbackModel
+
+@{
     ViewData["Title"] = "Обратная связь";
 }
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -8,18 +11,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Страница обратной связи</title>
     <style>
+        .register-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+        }
 
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div class="register-container">
         <h2>Обратная связь</h2>
-        <form>
-            <input type="name" placeholder="Имя" required>
-            <input type="email" placeholder="Электронная почта" required>
-            <textarea rows="4" placeholder="Сообщение" required></textarea>
-            <button name="register" type="submit">Отправить</button>
+
+        <form id="emailForm">
+            <input type="text" name="name" placeholder="Имя" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <textarea name="message" placeholder="Сообщение" required></textarea>
+            <button type="submit">Отправить</button>
         </form>
+
+        @if (Model != null)
+        {
+            <p>Имя: @Model.Name</p>
+            <p>Электронная почта: @Model.Email</p>
+            <p>Сообщение: @Model.Message</p>
+        }
+        else
+        {
+
+        }
     </div>
+
+    <script>
+        const form = document.getElementById('emailForm');
+        form.addEventListener('submit', (event) => {
+            event.preventDefault(); // Предотвращаем отправку формы
+
+            const formData = new FormData(form);
+            const emailData = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                message: formData.get('message')
+            };
+
+            fetch('https://smtp.gmail.com:587', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Origin': 'http://localhost:7134'
+                },
+                body: JSON.stringify(emailData)
+            })
+                .then(response => {
+                    console.log("Отпрвалено");
+                })
+                .catch(error => {
+                    console.log("Ошибка");
+                });
+        });
+    </script>
 </body>
 </html>

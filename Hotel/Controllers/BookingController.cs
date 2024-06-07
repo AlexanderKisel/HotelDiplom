@@ -53,7 +53,7 @@ namespace Hotel.Controllers
             return Ok(mapper.Map<BookingResponse>(result));
         }
 
-        [HttpPost, Authorize]
+        [HttpPost("[action]")]
         [ApiOk]
         [ApiConflict]
         [ApiNotFound]

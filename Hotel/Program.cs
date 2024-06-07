@@ -24,6 +24,13 @@ builder.Services.AddDbContextFactory<HotelContext>(options => options.UseSqlServ
 
 var app = builder.Build();
 
+app.UseCors(options =>
+{
+    options.AllowAnyOrigin();
+    options.AllowAnyMethod();
+    options.AllowAnyHeader();
+});
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

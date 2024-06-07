@@ -30,8 +30,9 @@ namespace Hotel.Api.Validators.Booking
                 .WithMessage("Поле работника не должно быть пустым")
                 .MustAsync(async (id, cancellationToken) =>
                 {
-                    var worker = await workerReadRepository.AnyByIdAsync(id, cancellationToken);
-                    return worker;
+                    if (id == null) return true;
+                        var worker = await workerReadRepository.AnyByIdAsync(id.Value, cancellationToken);
+                        return worker;
                 })
                 .WithMessage("Такого работника не существует");
             RuleFor(booking => booking.PersonId)
@@ -40,7 +41,8 @@ namespace Hotel.Api.Validators.Booking
                 .WithMessage("Поле персоны не должно быть пустым")
                 .MustAsync(async (id, cancellationToken) =>
                 {
-                    var person = await personReadRepository.AnyByIdAsync(id, cancellationToken);
+                    if (id == null) return true;
+                    var person = await personReadRepository.AnyByIdAsync(id.Value, cancellationToken);
                     return person;
                 })
                 .WithMessage("Такой персоны не существует");
