@@ -94,6 +94,27 @@
     <button id="reserveButton" class="reserveButton">Забронировать</button>
 
     <script>
+        // Получаем элементы input
+        let startDateInput = document.getElementById('startDateInput');
+        let endDateInput = document.getElementById('endDateInput');
+
+        // Устанавливаем текущую дату в формате yyyy-mm-dd
+        let today = new Date().toISOString().split('T')[0];
+
+        // Устанавливаем атрибут min для startDateInput и endDateInput равным текущей дате
+        startDateInput.setAttribute('min', today);
+        endDateInput.setAttribute('min', today);
+
+        // Обработчик события для изменения значения startDateInput
+        startDateInput.addEventListener('change', function () {
+            endDateInput.setAttribute('min', startDateInput.value);
+        });
+
+        // Обработчик события для изменения значения endDateInput
+        endDateInput.addEventListener('change', function () {
+            startDateInput.setAttribute('max', endDateInput.value);
+        });
+
         const reserveButton = document.getElementById('reserveButton');
 
         reserveButton.addEventListener('click', bookRoom);
