@@ -27,11 +27,8 @@ namespace Hotel.Controllers
             this.validatorService = validatorService;
         }
 
-        [HttpGet]
+        [HttpGet("[action]")]
         [ApiOk]
-        [ApiConflict]
-        [ApiNotFound]
-        [ApiNotAcceptable]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var result = await roomService.GetAllAsync(cancellationToken);

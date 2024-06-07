@@ -1,1 +1,195 @@
-﻿
+﻿@{
+    ViewData["Title"] = "Комнаты(Номера)";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewData["Title"]</title>
+    <style>
+        #roomContent {
+            background-color: rgba(255, 255, 255, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .reserveButton {
+            background-color: #58a6ff;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .reserveButton:hover {
+                background-color: #007bff;
+            }
+
+        .room-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+            .room-item img {
+                width: 300px;
+                height: 200px;
+                margin-right: 20px;
+            }
+
+        .room-item-info h3 {
+            margin-top: 0;
+        }
+
+        .room-item-info p {
+            margin-bottom: 0;
+        }
+
+    .preloader {
+        /*фиксированное позиционирование*/
+        position: fixed;
+        /* координаты положения */
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        /* фоновый цвет элемента */
+        background: #e0e0e0;
+        /* размещаем блок над всеми элементами на странице (это значение должно быть больше, чем у любого другого позиционированного элемента на странице) */
+        z-index: 1001;
+    }
+
+    .preloader__row {
+        position: relative;
+        top: 50%;
+        left: 50%;
+        width: 70px;
+        height: 70px;
+        margin-top: -35px;
+        margin-left: -35px;
+        text-align: center;
+        animation: preloader-rotate 2s infinite linear;
+    }
+
+    .preloader__item {
+        position: absolute;
+        display: inline-block;
+        top: 0;
+        background-color: #337ab7;
+        border-radius: 100%;
+        width: 35px;
+        height: 35px;
+        animation: preloader-bounce 2s infinite ease-in-out;
+    }
+
+    .preloader__item:last-child {
+        top: auto;
+        bottom: 0;
+        animation-delay: -1s;
+    }
+
+
+    .loaded_hiding .preloader {
+        transition: 0.3s opacity;
+        opacity: 0;
+    }
+
+    .loaded .preloader {
+        display: none;
+    }
+    </style>
+</head>
+<body>
+    <div class="preloader">
+        <div class="preloader__row">
+            <div class="preloader__item"></div>
+            <div class="preloader__item"></div>
+        </div>
+    </div>
+    <div id="roomContent">
+        <div id="roomList-wrapper">
+            <ul id="roomList">
+                <!-- Сюда будут динамически добавляться элементы меню -->
+            </ul>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      window.onload = function () {
+        document.body.classList.add('loaded');
+      }
+    </script>
+    <script>
+      window.onload = function () {
+        document.body.classList.add('loaded_hiding');
+        window.setTimeout(function () {
+          document.body.classList.add('loaded');
+          document.body.classList.remove('loaded_hiding');
+        }, 500);
+      }
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Функция для загрузки и отображения номеров
+            function loadRoom() {
+                $.ajax({
+                    url: 'https://localhost:7134/Room/GetAll',
+                    type: 'GET',
+                    success: function (data) {
+                        var roomList = $('#roomList');
+                        roomList.empty();
+
+                        // Отображаем все номера
+                        $.each(data, function (index, item) {
+                            var roomItem = $('<div class="room-item"></div>');
+                            var imageUrl = '/Resources/' + encodeURIComponent(item.number) + '.jpg';
+                            var image = $('<img>').attr('src', imageUrl);
+                            var info = $('<div class="menu-item-info"></div>');
+                            var typeRooms = $('<h3></h3>').text(item.typeRoom.toString());
+                            var number = $('<p></p>').text('Номер ' + item.number);
+                            var numberOfSeats = $('<p></p>').text('Кол-во мест ' + item.numberOfSeats);
+                            var numberOfRooms = $('<p></p>').text('Кол-во комнат в номере ' + item.numberOfRooms);
+                            var price = $('<p></p>').text('Цена: ' + item.price + ' р.');
+
+                            if (checkJWTToken()) {
+                                var reserveButton = $('<button class="reserveButton">Забронировать</button>');
+                                reserveButton.click(function () {
+                                    var roomId = item.id;
+                                    window.location.href = 'https://localhost:7134/Transition/BookingPage?roomId=' + roomId;
+                                });
+                                info.append(typeRooms, numberOfSeats, numberOfRooms, price, reserveButton);
+                            } else {
+                                info.append(typeRooms, numberOfSeats, numberOfRooms, price);
+                            }
+
+                            roomItem.append(image, info);
+                            roomList.append(roomItem);
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.log('Ошибка при получении данных меню');
+                    }
+                });
+            }
+
+            // Функция для проверки наличия jwt-token в cookie
+            function checkJWTToken() {
+                var token = getCookie('jwtToken');
+                console.log(token);
+                return token !== undefined && token !== null;
+            }
+
+            // Функция для получения значения cookie по имени
+            function getCookie(name) {
+                var value = "; " + document.cookie;
+                var parts = value.split("; " + name + "=");
+                if (parts.length === 2) return parts.pop().split(";").shift();
+            }
+
+            // Первичная загрузка номеров
+            loadRoom();
+        });
+    </script>
+</body>
+</html>

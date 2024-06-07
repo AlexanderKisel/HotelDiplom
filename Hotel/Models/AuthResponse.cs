@@ -6,5 +6,6 @@ namespace Hotel.Api.Models
     {
         public string Token { get; set; }
         public PostsApi Post { get; set; }
+        public string Id { get; set; }
     }
 }

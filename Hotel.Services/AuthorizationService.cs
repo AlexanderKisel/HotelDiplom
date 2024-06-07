@@ -25,7 +25,7 @@ namespace Hotel.Services
             var person = await personReadRepository.GetByPersonAsync(login, password, cancellationToken);
             var worker = await workerReadRepository.GetByWorkerAsync(login, password, cancellationToken);
             var claims = new List<Claim>();
-            var authModel = new AuthModel();
+            AuthModel authModel;
 
             if (person == null && worker == null)
             {
@@ -36,12 +36,16 @@ namespace Hotel.Services
             {
                 claims.Add(new Claim(ClaimTypes.Name, person.Login));
                 claims.Add(new Claim(ClaimTypes.Role, Posts.None.ToString()));
+                claims.Add(new Claim("Id", person.Id.ToString()));
+                authModel = new AuthModel(person.Id.ToString());
                 authModel.Post = Posts.None;
             }
             else
             {
                 claims.Add(new Claim(ClaimTypes.Name, worker.Login));
                 claims.Add(new Claim(ClaimTypes.Role, worker.Posts.ToString()));
+                claims.Add(new Claim("Id", worker.Id.ToString()));
+                authModel = new AuthModel(worker.Id.ToString());
                 authModel.Post = worker.Posts;
             }
             var accessToken = GenerateAccessToken(claims);

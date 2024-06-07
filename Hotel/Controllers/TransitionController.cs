@@ -28,5 +28,10 @@ namespace Hotel.Api.Controllers
         {
             return View();
         }
+
+        public IActionResult BookingPage()
+        {
+            return View();
+        }
     }
 }

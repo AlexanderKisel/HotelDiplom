@@ -32,6 +32,7 @@ namespace Hotel.Api.Controllers
         public async Task<IActionResult> AutorizationPerson(string login, string password, CancellationToken cancellationToken)
         {
             var result = await tokenService.AutorizationPerson(login, password, cancellationToken);
+            Console.WriteLine(result);
             return Ok(mapper.Map<AuthResponse>(result));
         }
     }

@@ -8,7 +8,7 @@ using ConfigurationManager = System.Configuration.ConfigurationManager;
 [Route("[controller]")]
 public class BackupDatabaseController: ControllerBase
 {
-    [HttpPost("Copy"), Authorize(Roles = "Admin, Manager")] 
+    [HttpPost("Copy")] 
     public void BackupDatabase()
     {
         try

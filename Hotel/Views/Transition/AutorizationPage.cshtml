@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+    ViewData["Title"] = "Авторизация";
+}
+<!DOCTYPE html>
 <html lang="ru">
  <style>
     form[name = "AuthStyle"] {
@@ -67,6 +70,8 @@
                         const enumValue = Post[parsed.post];
                         document.cookie = `userRole=${parsed.post}; path=/; SameSite=None; Secure`;
                         document.cookie = `jwtToken=${parsed.token}; path=/; SameSite=None; Secure`;
+                        // После сохранения поста и токена в cookie
+                        document.cookie = `userId=${parsed.id}; path=/; SameSite=None; Secure`;
                     } else {
                         console.error("Ошибка: токен не был получены");
                     }
