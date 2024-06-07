@@ -111,14 +111,14 @@
         $(document).ready(function () {
             var currentPage = 1;
             var itemsPerPage = 3;
+            var totalItems = 0;
+            var filteredItems = [];
 
-            // Добавьте обработчик для радиокнопок фильтра
             $('input[name="filter"]').change(function () {
                 currentPage = 1;
                 loadMenu($(this).val());
             });
 
-            // Добавьте обработчики для кнопок навигации
             $('#prev-page').click(function () {
                 if (currentPage > 1) {
                     currentPage--;
@@ -127,11 +127,12 @@
             });
 
             $('#next-page').click(function () {
-                currentPage++;
-                loadMenu($('input[name="filter"]:checked').val());
+                if ((currentPage * itemsPerPage) < filteredItems.length) {
+                    currentPage++;
+                    loadMenu($('input[name="filter"]:checked').val());
+                }
             });
 
-            // Функция для загрузки и отображения меню
             function loadMenu(filter) {
                 $.ajax({
                     url: 'https://localhost:7134/Menu/GetAll',
@@ -139,9 +140,9 @@
                     success: function (data) {
                         var menuList = $('#menuList');
                         menuList.empty();
+                        totalItems = data.length;
 
-                        // Фильтруем данные по выбранному типу еды
-                        var filteredData = (filter === 'all') ? data : data.filter(function (item) {
+                        filteredItems = (filter === 'all') ? data : data.filter(function (item) {
                             switch (filter) {
                                 case 'breakfast':
                                     return item.typeEat === 'Breakfast';
@@ -156,12 +157,10 @@
                             }
                         });
 
-                        // Пагинация
                         var startIndex = (currentPage - 1) * itemsPerPage;
-                        var endIndex = startIndex + itemsPerPage;
-                        var paginatedData = filteredData.slice(startIndex, endIndex);
+                        var endIndex = Math.min(startIndex + itemsPerPage, filteredItems.length);
+                        var paginatedData = filteredItems.slice(startIndex, endIndex);
 
-                        // Отображаем отфильтрованное меню
                         $.each(paginatedData, function (index, item) {
                             var menuItem = $('<div class="menu-item"></div>');
                             var imageUrl = '/Resources/' + encodeURIComponent(item.name) + '.jpg';
@@ -175,28 +174,21 @@
                             menuList.append(menuItem);
                         });
 
-                        // Обновляем состояние кнопок навигации
-                        updatePaginationButtons(filteredData.length, itemsPerPage, currentPage);
+                        updatePaginationButtons();
                     },
                     error: function (xhr, status, error) {
-                        console.log('Ошибка при получении данных меню');
+                        console.log('Произошла ошибка при загрузке меню');
                     }
                 });
             }
-            function updatePaginationButtons(currentPage, itemsPerPage, totalItems) {
-                var totalPages = Math.ceil(totalItems / itemsPerPage);
-                var nextPageHasContent = (currentPage + 1) < totalPages;
+
+            function updatePaginationButtons() {
+                var totalPages = Math.ceil(filteredItems.length / itemsPerPage);
 
                 $('#prev-page').toggleClass('active', currentPage > 1);
-
-                if (nextPageHasContent) {
-                    $('#next-page').addClass('active');
-                } else {
-                    $('#next-page').removeClass('active');
-                }
+                $('#next-page').toggleClass('active', (currentPage * itemsPerPage) < filteredItems.length && currentPage < totalPages);
             }
 
-            // Первичная загрузка меню
             loadMenu('all');
         });
     </script>
