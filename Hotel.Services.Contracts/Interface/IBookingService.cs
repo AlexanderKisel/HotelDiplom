@@ -6,6 +6,11 @@ namespace Hotel.Services.Contracts.Interface
     public interface IBookingService
     {
         /// <summary>
+        /// Получить отфильтрованный список бронирований <see cref="BookingModel"/>
+        /// </summary>
+        Task<IEnumerable<BookingModel>> GetFilteredBookingsAsync(string userId, CancellationToken cancellationToken);
+
+        /// <summary>
         /// Получить список всех <see cref="BookingModel"/>
         /// </summary>
         Task<IEnumerable<BookingModel>> GetAllAsync(CancellationToken cancellationToken);

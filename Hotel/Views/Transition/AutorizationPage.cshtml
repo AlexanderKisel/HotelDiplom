@@ -74,6 +74,7 @@
                         document.cookie = `userId=${parsed.id}; path=/; SameSite=None; Secure`;
                     } else {
                         console.error("Ошибка: токен не был получены");
+                        alert("Неправильный логин или пароль");
                     }
                 })
                 .catch((err) => console.error("error", err));

@@ -34,7 +34,7 @@ namespace Hotel.Api.Controllers
             return View();
         }
 
-        public IActionResult ThankYou()
+        public IActionResult MyBooking()
         {
             return View();
         }

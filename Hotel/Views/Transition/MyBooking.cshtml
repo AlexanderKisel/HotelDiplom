@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Бронирования</title>
+    <style>
+        #bookingList {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .booking-item {
+            background-color: #f2f2f2;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+            .booking-item h3 {
+                margin-top: 0;
+            }
+
+            .booking-item p {
+                margin: 5px 0;
+            }
+    </style>
+</head>
+<body>
+    <div id="bookingList"></div>
+    <script>
+        fetch('https://localhost:7134/Booking/GetFilteredBookings')
+            .then(response => response.json())
+            .then(data => {
+                const bookingListElement = document.getElementById('bookingList');
+                if (data.length > 0) {
+                    let counter = 1;
+                    data.forEach(booking => {
+                        const bookingItem = document.createElement('div');
+                        bookingItem.classList.add('booking-item');
+
+                        const bookingNumber = document.createElement('h3');
+                        bookingNumber.textContent = `Бронирование #${counter}`;
+
+                        // Форматируем дату в соответствующий формат
+                        const dateStart = document.createElement('p');
+                        dateStart.textContent = `Дата начала бронирования: ${new Date(booking.dateStart).toLocaleDateString()}`;
+
+                        const dateEnd = document.createElement('p');
+                        dateEnd.textContent = `Дата конца бронирования: ${new Date(booking.dateEnd).toLocaleDateString()}`;
+
+                        bookingItem.appendChild(bookingNumber);
+                        bookingItem.appendChild(dateStart);
+                        bookingItem.appendChild(dateEnd);
+                        bookingListElement.appendChild(bookingItem);
+
+                        counter++;
+                    });
+                } else {
+                    bookingListElement.textContent = 'У вас нет бронирований';
+                }
+            })
+            .catch(error => console.error('Ошибка получения данных:', error));
+    </script>
+</body>
+</html>

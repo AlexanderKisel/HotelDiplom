@@ -6,6 +6,7 @@ using Hotel.Services.Contracts.Exceptions;
 using Hotel.Services.Contracts.Interface;
 using Hotel.Services.Contracts.Models;
 using Hotel.Services.Contracts.ModelsRequest;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hotel.Services.Implementations
 {
@@ -165,6 +166,45 @@ namespace Hotel.Services.Implementations
 
             bookingWriteRepository.Delete(targetBooking);
             await unitOfWork.SaveChangesAsync(cancellationToken);
+        }
+
+            async Task<IEnumerable<BookingModel>> IBookingService.GetFilteredBookingsAsync(string userId, CancellationToken cancellationToken)
+{
+                var bookings = await bookingReadRepository.GetAllAsync(cancellationToken);
+
+                var filteredBookings = bookings
+                    .Where(x => x.WorkerId.ToString() == userId || x.PersonId.ToString() == userId)
+                    .ToList();
+
+                var roomIds = filteredBookings.Select(x => x.RoomId).Distinct();
+                var roomDictionary = await roomReadRepository.GetIdsAsync(roomIds, cancellationToken);
+
+                var listBookingModel = new List<BookingModel>();
+                foreach (var booking in filteredBookings)
+                {
+                    var bookingMap = mapper.Map<BookingModel>(booking);
+                    if (!roomDictionary.TryGetValue(booking.RoomId, out var room))
+                    {
+                        continue;
+                    }
+                    bookingMap.Room = mapper.Map<RoomModel>(room);
+
+                    if (booking.WorkerId.ToString() == userId && booking.WorkerId != null)
+                    {
+                        var worker = await workerReadRepository.GetByIdAsync(booking.WorkerId.Value, cancellationToken);
+                        bookingMap.Worker = mapper.Map<WorkerModel>(worker);
+                    }
+
+                    if (booking.PersonId.ToString() == userId && booking.PersonId != null)
+                    {
+                        var person = await personReadRepository.GetByIdAsync(booking.PersonId.Value, cancellationToken);
+                        bookingMap.Person = mapper.Map<PersonModel>(person);
+                    }
+
+                    listBookingModel.Add(bookingMap);
+                }
+
+                return listBookingModel;
         }
     }
 }

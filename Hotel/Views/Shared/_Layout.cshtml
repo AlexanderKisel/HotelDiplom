@@ -28,27 +28,36 @@
             </form> 
         </div>
         <div class="user-actions">
+            <form id="bookingButton" action="@Url.Action("MyBooking", "Transition")" method="get" style="display: inline;">
+                <button class="bookingBtn" type="submit">Мои бронирования</button>
+            </form>
             <form id="deleteTokenButton" action="@Url.Action("HomePage", "Transition")" method="get" style="display: inline;">
                 <button class="exitBtn" type="submit">Выйти</button>
             </form>
         </div>
         <div class="manager-actions">
-            <form id="deleteTokenButton" action="@Url.Action("HomePage", "Transition")" method="get" style="display: inline;">
-                <button class="exitBtn" type="submit">Выйти</button>
+            <form id="bookingButton" action="@Url.Action("MyBooking", "Transition")" method="get" style="display: inline;">
+                <button class="bookingBtn" type="submit">Мои бронирования</button>
             </form>
             <form id="rezervCopyForm" style="display: inline;">
                 <button class="rezervCopyBtn" onclick="backupDatabase()">Резервное копирование БД</button>
             </form>
-        </div>
-        <div class="admin-actions">
             <form id="deleteTokenButton" action="@Url.Action("HomePage", "Transition")" method="get" style="display: inline;">
                 <button class="exitBtn" type="submit">Выйти</button>
+            </form>
+        </div>
+        <div class="admin-actions">
+            <form id="bookingButton" action="@Url.Action("MyBooking", "Transition")" method="get" style="display: inline;">
+                <button class="bookingBtn" type="submit">Мои бронирования</button>
             </form>
             <form id="adminForm" action="https://localhost:7134/swagger/index.html" style="display: inline;">
                 <button class="adminBtn" type="submit">Панель администратора</button>
             </form>
             <form id="rezervCopyForm" style="display: inline;">
                 <button class="rezervCopyBtn" onclick="backupDatabase()">Резервное копирование БД</button>
+            </form>
+            <form id="deleteTokenButton" action="@Url.Action("HomePage", "Transition")" method="get" style="display: inline;">
+                <button class="exitBtn" type="submit">Выйти</button>
             </form>
         </div>
     </header>
@@ -66,9 +75,9 @@
     <footer>
         <div class="footer-container">
             <div class="social-links">
-                <a href="ссылка на Instagram" class="social-icon"><i class="fab fa-instagram"></i></a>
-                <a href="ссылка на Facebook" class="social-icon"><i class="fab fa-facebook"></i></a>
-                <a href="ссылка на Twitter" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="ссылка на Instagram" class="social-icon"><i class="fab fa-vk"></i></a>
+                <a href="ссылка на Facebook" class="social-icon"><i class="fab fa-telegram"></i></a>
+                <a href="ссылка на Twitter" class="social-icon"><i class="fab fa-whatsapp"></i></a>
             </div>
             <div class="contact-info">
                 <p>Телефон: +7-931-363-53-38</p>

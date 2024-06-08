@@ -27,11 +27,23 @@ namespace Hotel.Controllers
             this.validatorService = validatorService;
         }
 
-        [HttpGet, Authorize(Roles = "Admin")]
+        [HttpGet("[action]")]
         [ApiOk]
-        [ApiConflict]
-        [ApiNotFound]
-        [ApiNotAcceptable]
+        public async Task<IActionResult> GetFilteredBookings(CancellationToken cancellationToken)
+        {
+            var userId = Request.Cookies["userId"];
+            if (userId == null)
+            {
+                return BadRequest(new { message = "UserId не найден в cookie" });
+            }
+
+            var bookings = await bookingService.GetFilteredBookingsAsync(userId, cancellationToken);
+
+            return Ok(mapper.Map<IEnumerable<BookingResponse>>(bookings));
+        }
+
+        [HttpGet("[action]")]
+        [ApiOk]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var result = await bookingService.GetAllAsync(cancellationToken);
