@@ -105,6 +105,13 @@
         startDateInput.setAttribute('min', today);
         endDateInput.setAttribute('min', today);
 
+        // Устанавливаем максимальную дату на год вперед
+        let maxDate = new Date();
+        maxDate.setFullYear(maxDate.getFullYear() + 1);
+        maxDate = maxDate.toISOString().split('T')[0];
+        startDateInput.setAttribute('max', maxDate);
+        endDateInput.setAttribute('max', maxDate);
+
         // Обработчик события для изменения значения startDateInput
         startDateInput.addEventListener('change', function () {
             endDateInput.setAttribute('min', startDateInput.value);
@@ -114,6 +121,8 @@
         endDateInput.addEventListener('change', function () {
             startDateInput.setAttribute('max', endDateInput.value);
         });
+
+        // ... остальной код ...
 
         const reserveButton = document.getElementById('reserveButton');
 

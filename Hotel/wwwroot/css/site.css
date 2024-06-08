@@ -86,9 +86,12 @@ nav ul {
 .unauthorized-actions #registerForm button,
 .unauthorized-actions #authorizationForm button,
 .user-actions #deleteTokenButton button,
+.user-actions #bookingButton button,
 .manager-actions #deleteTokenButton button,
+.manager-actions #bookingButton button,
 .manager-actions #rezervCopyForm button,
 .admin-actions #deleteTokenButton button,
+.admin-actions #bookingButton button,
 .admin-actions #rezervCopyForm button,
 .admin-actions #adminForm button {
     background-color: #58a6ff;
